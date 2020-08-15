@@ -1,0 +1,28 @@
+////_____fonts property_____/////////
+$font-open-sans: 'Open Sans';
+$font-Asyblek: 'Asyblek';
+$font-size: 14px;
+
+////___typography property____//////
+$base-line-height: 1.5;
+
+////____text colors property___//////
+$color-blue: #478bca;
+$color-black: #000;
+$color-red: #f11516;
+$color-grey: #555;
+$color-grey-light: #b9b9bb;
+$color-pink: #fce3e4;
+//$color-primary:
+$color-acent: $color-blue;
+//$color-secondary: $color-red;
+$color-link-hover: $color-red;
+////////////////////////////////////
+
+@mixin globalWrapper {
+  max-width: 1200px;
+  min-width: 300px;
+  margin: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}

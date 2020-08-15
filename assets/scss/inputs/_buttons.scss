@@ -1,0 +1,140 @@
+
+.buy-btn{
+  height: 40px;
+  box-sizing: border-box;
+  border: 2px solid #478bca;
+  width: 115px;
+  background-color: #fff;
+  border-radius: 8px;
+  color: #478bca;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  &:hover{
+    background-color: #478bca;
+    color: #fff;
+    border-bottom: 2px solid #2b659c;
+  }
+  &[disabled=disabled]{
+    border: 2px solid #c6cace;
+    color: #9e9e9f;
+    cursor: default;
+    background-color: #f6f6f6;
+    opacity: 0.7;
+  }
+}
+.add-to-cart-btn, .add-to-cart-btn:hover{
+  &[disabled=disabled]{
+    border: 2px solid #c6cace;
+    color: #9e9e9f;
+    cursor: default;
+    background-color: #f6f6f6;
+    opacity: 0.7;
+  }
+}
+@mixin pilsan-button($color, $border-color){
+  box-sizing: border-box;
+  border: 2px solid $color;
+  padding-left:25px;
+  padding-right: 25px;
+  background-color: #fff;
+  border-radius: 8px;
+  color: $color;
+  cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  padding-top:5px;
+  padding-bottom: 5px;
+  transition: background-color 0.2s, color 0.2s;
+  height: 40px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  &:hover, &.selected{
+    background-color: $color;
+    color: #fff;
+    border-bottom: 2px solid $border-color;
+  }
+}
+.blue-button{
+  @include pilsan-button(#478bca, #2b659c);
+  line-height: 1.6;
+  box-sizing: border-box;
+  &[disabled=disabled], &.inactive-button, &.disabled{
+    border: 2px solid #c6cace;
+    color: #9e9e9f;
+    cursor: default;
+    background-color: #f6f6f6;
+    opacity: 0.7;
+  }
+}
+.red-button{
+  line-height: 1.6;
+  box-sizing: border-box;
+  @include pilsan-button(#ee1b24, #a50c13);
+  &[disabled=disabled]{
+    border: 2px solid #c6cace;
+    color: #9e9e9f;
+    cursor: default;
+    background-color: #f6f6f6;
+    opacity: 0.7;
+  }
+  &:hover{
+    &[disabled=disabled]{
+      border: 2px solid #c6cace;
+      color: #9e9e9f;
+      cursor: default;
+      background-color: #f6f6f6;
+      opacity: 0.7;
+    }
+  }
+}
+a.grey-button{
+  line-height: 1.7;
+}
+.grey-button{
+  line-height: 1.5;
+  box-sizing: border-box;
+  @include pilsan-button(#c7c7c7, #c7c7c7);
+  &[disabled=disabled]{
+    border: 2px solid #c6cace;
+    color: #9e9e9f;
+    cursor: default;
+    background-color: #f6f6f6;
+    opacity: 0.7;
+  }
+  &:hover{
+    &[disabled=disabled]{
+      border: 2px solid #c6cace;
+      color: #9e9e9f;
+      cursor: default;
+      background-color: #f6f6f6;
+      opacity: 0.7;
+    }
+  }
+}
+.white-button{
+  line-height: 1.7;
+  box-sizing: border-box;
+  @include pilsan-button(#fff, #fff);
+  &:hover{
+    background-color: transparent;
+    color: #fff;
+    border-color: #fff;
+  }
+  background-color: transparent;
+  &[disabled=disabled]{
+    border: 2px solid #c6cace;
+    color: #9e9e9f;
+    cursor: default;
+    background-color: #f6f6f6;
+    opacity: 0.7;
+  }
+  &:hover{
+    &[disabled=disabled]{
+      border: 2px solid #c6cace;
+      color: #9e9e9f;
+      cursor: default;
+      background-color: #f6f6f6;
+      opacity: 0.7;
+    }
+  }
+}
