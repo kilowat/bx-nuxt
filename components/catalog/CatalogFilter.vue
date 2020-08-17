@@ -99,12 +99,6 @@ export default {
   computed:{
     priceValue: {
       get() {
-        let price = [];
-        /*
-        let itemValue = this.priceData.VALUES;
-        price[0] = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MIN.VALUE);
-        price[1] = parseInt(itemValue.MAX.HTML_VALUE) ? parseInt(itemValue.MAX.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
-        */
         return this.price;
       },
       set(val) {
@@ -117,6 +111,7 @@ export default {
         for (let id in this.filterResult.PROPERTY_ID_LIST) {
           let propId = this.filterResult.PROPERTY_ID_LIST[id];
           let item = this.filterResult.ITEMS[propId]
+          
           if (Object.keys(item.VALUES).length > 0) {
             result.push(item);
           }
@@ -140,6 +135,7 @@ export default {
   methods: {
     async filterUpdate() {
       let sectionPath = this.$route.fullPath.split('/filter/')[0];
+
       if (sectionPath.length == 0) {
         sectionPath = this.$route.fullPath;
       }
@@ -149,6 +145,7 @@ export default {
 
       let url = this.$api(sectionPath + '?' + this.getFilterQuery());
       url = url.replace("catalog", 'catalog-filter');
+      
       let response = await this.$axios.$get(url);
 
       this.filterResult = response;
@@ -257,8 +254,6 @@ export default {
           let itemValue = this.priceData.VALUES;
           this.price[0] = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MIN.VALUE);
           this.price[1] = parseInt(itemValue.MAX.HTML_VALUE) ? parseInt(itemValue.MAX.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
-         // this.price[0] = this.filterResult.ITEMS[priceCode].VALUES.MIN.VALUE;
-         // this.price[1] = this.filterResult.ITEMS[priceCode].VALUES.MAX.VALUE;
         }
       }
     },

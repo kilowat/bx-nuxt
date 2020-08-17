@@ -6,7 +6,7 @@
             <nuxt-link :to="'/catalog/' + item.CODE + '/'" title="Детский транспорт">{{ item.NAME }}</nuxt-link>
             <ul v-if="item.child.length > 0" class="child-item">
               <li v-for="itemChild in item.child" :key="itemChild.ID"> 
-                  <nuxt-link :to="'/catalog/' + item.CODE + '/' + itemChild.CODE + '/'" title="Детский транспорт">{{ itemChild.NAME }}</nuxt-link>
+                  <nuxt-link :to="'/catalog/' + itemChild.CODE + '/'" title="Детский транспорт">{{ itemChild.NAME }}</nuxt-link>
               </li>
             </ul>
           </li>
