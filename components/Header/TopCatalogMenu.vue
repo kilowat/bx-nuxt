@@ -3,7 +3,12 @@
       <nav class="top-nav catalog-menu">
         <ul class="catalog-top-menu">
           <li class="has-child" v-for="item in treeItems" :key="item.ID">
-            <nuxt-link :to="'/catalog/' + item.CODE" title="Детский транспорт">{{ item.NAME }}</nuxt-link>
+            <nuxt-link :to="'/catalog/' + item.CODE + '/'" title="Детский транспорт">{{ item.NAME }}</nuxt-link>
+            <ul v-if="item.child.length > 0" class="child-item">
+              <li v-for="itemChild in item.child" :key="itemChild.ID"> 
+                  <nuxt-link :to="'/catalog/' + item.CODE + '/' + itemChild.CODE + '/'" title="Детский транспорт">{{ itemChild.NAME }}</nuxt-link>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -49,6 +54,9 @@ header .catalog-top-menu{
       &:hover, &.selected{
         background-color: #cf1617;
       }
+      &:hover+.child-item{
+        display: block;
+      }
     }
     .child-item{
       box-shadow: 0 0 3px 0 rgba(0,0,0,0.2);
@@ -64,6 +72,9 @@ header .catalog-top-menu{
       padding-bottom: 20px;
       left: -10px;
       z-index: 1000;
+      &:hover{
+        display: block;
+      }
       li{
         margin-top: 7px;
         margin-bottom: 7px;

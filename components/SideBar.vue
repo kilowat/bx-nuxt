@@ -1,7 +1,6 @@
 <template>
     <aside class="sidebar">
-      sidebar
-        <slot></slot>
+      <slot></slot>
     </aside>
 </template>
 <script>

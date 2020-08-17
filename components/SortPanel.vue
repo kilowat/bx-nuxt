@@ -1,6 +1,6 @@
 <template>
   <div class=sort-panel>
-    <div v-for="item in sortData" :key="item.id">
+    <div class="sort-item" v-for="item in sortData" :key="item.id">
       <label>{{ item.name }}</label>
       <input type="radio" v-model="order" name="order" @change="sort" :value="item.param+'_asc'">asc
       <input type="radio" v-model="order" name="order" @change="sort" :value="item.param+'_desc'">desc
@@ -27,5 +27,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+  .sort-panel{
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    .sort-item{
+      margin-right: 25px;
+    }
+  }
 </style>

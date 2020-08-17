@@ -24,9 +24,6 @@ export default {
     },
   },
   head() {
-    const canonical = `https://mysite.com${this.$route.path
-      .toLowerCase()
-      .replace(/\/$/, '')}`
     return {
       meta: [
         ...this.meta
@@ -35,7 +32,6 @@ export default {
       script: [
         // { src: 'https://markknol.github.io/console-log-viewer/console-log-viewer.js' }
       ],
-      link: [{ rel: 'canonical', href: canonical }]
     }
   },
   components: {
@@ -45,6 +41,19 @@ export default {
 </script>
 
 <style lang="scss">
+.page-enter-active,
+.page-leave-active,
+.layout-enter-active, 
+.layout-leave-active {
+  //transition: opacity .2s
+}
+
+.page-enter,
+.page-leave-active,
+.layout-enter, 
+.layout-leave-active {
+  opacity: 0
+}
 .wrapper{
   @include globalWrapper();
 }

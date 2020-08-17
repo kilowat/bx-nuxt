@@ -1,76 +1,55 @@
-.icheckbox_flat {
-  display: inline-block;
-  *display: inline;
-  vertical-align: top;
-  margin: 0;
-  padding: 0;
-  width: 18px;
-  height: 18px;
-  border: none;
-  cursor: pointer;
-  border: 1px solid #b8b8ba;
-  border-radius: 5px;
-  &.checked {
-    border-color: #478bca;
+.checkbox{
+  input{
+    display: none;
+    &:checked+label{
+      text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.8);
+      span{
+        background-color: $color-primary;
+        border-color: $color-primary;
+      }
+      span:before{
+        position: absolute;
+        display: block;
+        width: 15px;
+        height: 2px;
+        content: '';
+        background-color: #fff;
+        left: 7px;
+        top: 10px;
+        transform: rotate(-45deg);
+      }
+      span:after{
+        position: absolute;
+        display: block;
+        width: 10px;
+        height: 2px;
+        content: '';
+        background-color: #fff;
+        left: 1px;
+        top: 12px;
+        transform: rotate(44deg);
+      }
+    }
+  }
+  label{
+    font-weight: 300;
     position: relative;
-    &:after {
-      background: #478bca none repeat scroll 0 0;
-      content: "";
-      height: 2px;
-      left: 1px;
-      position: absolute;
-      transform: rotate(50deg);
-      width: 8px;
-      top: 7px;
-    }
-    &:before {
-      background: #478bca none repeat scroll 0 0;
-      content: "";
-      height: 2px;
-      left: 6px;
-      position: absolute;
-      transform: rotate(-50deg);
-      width: 8px;
-      top: 7px;
-    }
-  }
-  &.disabled {
-    background-color: #e8e8e8;
-  }
-  &.checked.disabled {}
-}
-
-.iradio_flat {
-  display: inline-block;
-  *display: inline;
-  vertical-align: top;
-  margin: 0;
-  padding: 0;
-  width: 18px;
-  height: 18px;
-  border: none;
-  cursor: pointer;
-  border: 1px solid #e2e2e2;
-  border-radius: 100%;
-  position: relative;
-  margin-right: 9px;
-  top: 3px;
-  &.checked {
-    border-color: #478bca;
-    &:after {
-      background-color: #478bca;
-      border-radius: 100%;
-      content: "";
+    padding-left: 34px;
+    cursor: pointer;
+    font-size: 14px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    span{
       display: block;
-      height: 8px;
-      width: 8px;
       position: absolute;
-      left: 4px;
-      top: 4px;
+      border:1px solid #d1d7db;
+      border-radius: 4px;
+      height: 24px;
+      width: 24px;
+      content: '';
+      left: 0px;
+      top: calc(50% - 12px);
+      background-color: #fff;
     }
   }
-  &.disabled {
-    background-color: #e8e8e8;
-  }
-  &.checked.disabled {}
 }

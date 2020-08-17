@@ -1,7 +1,3 @@
-function getUri($uri){
-  return 'http://192.168.1.48/api'+$uri;
-}
-
 export const state = () => ({
   sectionTree: [],
   catalogSectionPage: null
@@ -26,12 +22,12 @@ export const mutations = {
 };
 export const actions = {
   async fetchCatalogList({commit}, path){
-    let page = await this.$axios.$get(getUri(path));
+    let page = await this.$axios.$get(this.$api(path));
 
     commit('setCatalogSectionPage', page);
   },
   async fetchSectionsTree({commit} ) {
-    const sections = await this.$axios.$get(getUri('/catalog-menu'));
+    const sections = await this.$axios.$get(this.$api('/catalog-menu'));
     commit('setSectionTree', sections);
   }
 };

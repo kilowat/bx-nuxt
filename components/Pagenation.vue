@@ -272,8 +272,20 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="scss" scoped>
 a {
   cursor: pointer;
+}
+.pagenation{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  li{
+    margin-left: 6px;
+    margin-right: 6px;
+    display:inline-block;
+    vertical-align: middle;
+  }
 }
 </style>

@@ -13,13 +13,14 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/redirect-module": "^0.3.1",
     "@nuxtjs/style-resources": "^1.0.0",
     "breakpoint-sass": "^2.7.1",
     "normalize.css": "^8.0.1",
     "nuxt": "^2.0.0",
     "nuxt-webfontloader": "^1.1.0",
+    "vue-loading-skeleton": "^1.1.9",
     "vue-slider-component": "^3.2.4",
-    "vue-sliding-pagination": "^1.1.0",
     "vue-svg-loader": "^0.16.0",
     "vuejs-paginate": "^2.1.0"
   },

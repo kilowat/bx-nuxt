@@ -18,7 +18,7 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#f11516' },
   router: {
     prefetchLinks: false
   },
@@ -27,7 +27,7 @@ export default {
   */
   css: [
     'normalize.css',
-    '~/assets/scss/inputs/_text.scss',
+    '~/assets/scss/inputs/_module.scss',
   ],
   /*
   ** Plugins to load before mounting the App
@@ -48,6 +48,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
     'nuxt-webfontloader',
+    '@nuxtjs/redirect-module'
   ],
   /*
   ** Axios module configuration
@@ -55,6 +56,9 @@ export default {
   */
   axios: {
   },
+  redirect: [
+    { from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$', to: '$1/$2', }
+  ],
   styleResources: {
     scss: [
       '~/assets/scss/global-variables.scss',

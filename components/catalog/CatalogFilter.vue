@@ -2,14 +2,14 @@
   <div class="smart-filter">
     <div class="filter-items">
       <div class="item-row price-row">
-        <label for="">Цена</label>
+        <div class="item-name">Цена</div>
         <div class="price-range">
             <div class="range-inputs">
               <div class="input-cell">
-                <input type="text" v-model="priceValue[0]">
+                <input class="text-input" type="text" v-model="priceValue[0]">
               </div>
               <div class="input-cell">
-                <input type="text" v-model="priceValue[1]">
+                <input class="text-input" type="text" v-model="priceValue[1]">
               </div>
             </div>
             <div class="range">
@@ -26,25 +26,29 @@
         </div>
       </div>
       <div class="item-row" v-for="item in filterItems" :key="item.ID">
-        <div class="prop-name">{{ item.NAME }}</div>
+        <div class="item-name">{{ item.NAME }}</div>
         <div class="check-box-row" v-if="item.PROPERTY_TYPE == 'L'" >
           <div class="check-box-input" v-for="valueItem in item.VALUES" :key="valueItem.URL_ID">
-            <label :for="valueItem.CONTROL_ID">{{ valueItem.VALUE}}</label>
-            <input type="checkbox"
-              :id="valueItem.CONTROL_ID"
-              :checked="valueItem.CHECKED" 
-              v-model="filterCheckBoxValues[valueItem.CONTROL_ID + '|' + valueItem.HTML_VALUE]" 
-              @change='filterUpdate'>
-            <span>{{ valueItem.ELEMENT_COUNT }}</span>
+            <div class="checkbox">
+              <input type="checkbox"
+                :id="valueItem.CONTROL_ID"
+                :checked="valueItem.CHECKED" 
+                v-model="filterCheckBoxValues[valueItem.CONTROL_ID + '|' + valueItem.HTML_VALUE]" 
+                @change='filterUpdate'>
+              <label :for="valueItem.CONTROL_ID"><span></span>
+                {{ valueItem.VALUE}}
+                <i class="filter-count">({{ valueItem.ELEMENT_COUNT }})</i>
+              </label>
+            </div>
           </div>
         </div>
         <div class="input-rang-row" v-if="item.PROPERTY_TYPE == 'N'">
             <div class="range-inputs">
               <div class="input-cell">
-                <input type="text" v-model="filterRangeValues[item.ID][0]">
+                <input class="text-input" type="text" v-model="filterRangeValues[item.ID][0]">
               </div>
               <div class="input-cell">
-                <input type="text" v-model="filterRangeValues[item.ID][1]">
+                <input class="text-input" type="text" v-model="filterRangeValues[item.ID][1]">
               </div>
             </div>
             <div class="range">
@@ -86,7 +90,6 @@ export default {
   created() {
    this.filterResult = this.filterData;
    this.obtainValues();
-   this.$nuxt.$on('update-smart-filter', (val) => this.filterResult = val);
   },
   components: {
     VueSlider
@@ -97,10 +100,12 @@ export default {
     priceValue: {
       get() {
         let price = [];
+        /*
         let itemValue = this.priceData.VALUES;
         price[0] = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MIN.VALUE);
         price[1] = parseInt(itemValue.MAX.HTML_VALUE) ? parseInt(itemValue.MAX.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
-        return price;
+        */
+        return this.price;
       },
       set(val) {
         this.price = val;
@@ -134,17 +139,41 @@ export default {
   },
   methods: {
     async filterUpdate() {
-      let url = 'http://192.168.1.48/api/catalog-filter/' + this.getFilterQuery();
+      let sectionPath = this.$route.fullPath.split('/filter/')[0];
+      if (sectionPath.length == 0) {
+        sectionPath = this.$route.fullPath;
+      }
+      
+      sectionPath += '/';
+      sectionPath = sectionPath.replace('//', '/');
+
+      let url = this.$api(sectionPath + '?' + this.getFilterQuery());
+      url = url.replace("catalog", 'catalog-filter');
       let response = await this.$axios.$get(url);
-  
+
       this.filterResult = response;
     },
     setFilter() {
-      let filterUri = "/catalog/" + this.$route.params.code +"/filter/" + this.filterResult.FILTER_URL;
-      let filterParams = '/catalog/' + this.getFilterQuery();
+      let sectionPath = this.$route.fullPath.split('/filter/')[0];
+      if (sectionPath.length == 0) {
+        sectionPath = this.$route.fullPath;
+      }
+      
+      let filterUri = '';
+     
+      if (this.filterResult.FILTER_URL.length > 0) {
+        filterUri = sectionPath +"/filter/" + this.filterResult.FILTER_URL;
+      } else {
+        filterUri = sectionPath + '/';
+      }
 
-      this.$nuxt.$emit('set-smart-filter', { filterParams, filterUri });
+      let filterParams = sectionPath + '/' + '?' + this.getFilterQuery();
+      
+      filterParams = filterParams.replace('//', '/');
+     
+      filterUri = filterUri.replace('//', '/');
 
+      this.$emit('set-smart-filter', { filterParams, filterUri });
     },
     getCurrentQueryString() {
       let queryParamsArr = [];
@@ -156,10 +185,12 @@ export default {
       return queryParamsArr.join("&");
     },
     getFilterQuery() {
-      let queryParamsArr = ["set_filter=y"];
+      let queryParamsArr = [];
       let queryString = ""
       let currentQuery = this.$route.query;
-    
+
+      queryParamsArr.push('set_filter=y');
+
       for (let i in currentQuery) {
           if (i == this.navId ) continue;
 
@@ -171,16 +202,29 @@ export default {
           queryParamsArr.push(i.split('|').join('='));
         }
       }
-
+   
       if (Object.keys(this.priceData).length > 0) {
-        if (this.price[0] > 0)
+        if (this.price[0] > 0) {
           queryParamsArr.push(this.priceData.VALUES.MIN.CONTROL_ID  + "=" + this.price[0]);
-        if (this.price[1] > 0)
+        }
+
+        if (this.price[1] > 0) {
           queryParamsArr.push(this.priceData.VALUES.MAX.CONTROL_ID  + "=" + this.price[1]);
+        }
       }
 
+      let rangeValues = this.filterRangeValues;
+     
+      for(let i in rangeValues) {
+        if (rangeValues[i][0] > 0) {
+          queryParamsArr.push(this.filterResult.ITEMS[i].VALUES.MIN.CONTROL_ID + '=' + rangeValues[i][0]);
+        }
+        if (rangeValues[i][1] > 0) {
+          queryParamsArr.push(this.filterResult.ITEMS[i].VALUES.MAX.CONTROL_ID + '=' + rangeValues[i][1]);
+        }
+      }
+      
       queryString = queryParamsArr.join("&");
-      queryString = this.$route.params.code + "?" + queryString;
      
       return queryString;
     },
@@ -196,7 +240,7 @@ export default {
         } else if (filterItems[i].PROPERTY_TYPE == "N"){
           let itemValue = this.filterResult.ITEMS[filterItems[i].ID].VALUES;
           let minValue = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MIN.VALUE);
-          let maxValue = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
+          let maxValue = parseInt(itemValue.MAX.HTML_VALUE) ? parseInt(itemValue.MAX.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
           
           this.filterRangeValues[filterItems[i].ID] = [
             minValue,
@@ -210,8 +254,11 @@ export default {
       if (prices.length > 0) {
         let priceCode = prices[0];
         if (this.filterResult.ITEMS[priceCode] != undefined) {
-          this.price.min = this.filterResult.ITEMS[priceCode].VALUES.MIN.VALUE;
-          this.price.max = this.filterResult.ITEMS[priceCode].VALUES.MAX.VALUE;
+          let itemValue = this.priceData.VALUES;
+          this.price[0] = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MIN.VALUE);
+          this.price[1] = parseInt(itemValue.MAX.HTML_VALUE) ? parseInt(itemValue.MAX.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
+         // this.price[0] = this.filterResult.ITEMS[priceCode].VALUES.MIN.VALUE;
+         // this.price[1] = this.filterResult.ITEMS[priceCode].VALUES.MAX.VALUE;
         }
       }
     },
@@ -237,8 +284,27 @@ export default {
       padding-bottom: 15px;
       border-bottom: 1px solid #ccc;
     }
+    .item-name{
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    .check-box-input {
+      margin-top: 8px;
+    }
+    .filter-count{
+      font-style: normal;
+    }
     .range-inputs{
       display: flex;
+      flex-wrap: wrap;
+      margin-left: -15px;
+      margin-right: -15px;
+      .input-cell{
+        margin-left: 15px;
+        margin-right: 15px;
+        width: calc(50% - 30px)
+      }
     }
   }
 </style>
