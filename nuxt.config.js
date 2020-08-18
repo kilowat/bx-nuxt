@@ -20,7 +20,8 @@ export default {
   */
   loading: { color: '#f11516' },
   router: {
-    prefetchLinks: false
+    prefetchLinks: false,
+    trailingSlash: true,
   },
   /*
   ** Global CSS

@@ -3,10 +3,10 @@
       <nav class="top-nav catalog-menu">
         <ul class="catalog-top-menu">
           <li class="has-child" v-for="item in treeItems" :key="item.ID">
-            <nuxt-link :to="'/catalog/' + item.CODE + '/'" title="Детский транспорт">{{ item.NAME }}</nuxt-link>
+            <nuxt-link :to="{ name: 'catalog-section', params: { section: item.CODE } }" title="Детский транспорт">{{ item.NAME }}</nuxt-link>
             <ul v-if="item.child.length > 0" class="child-item">
               <li v-for="itemChild in item.child" :key="itemChild.ID"> 
-                  <nuxt-link :to="'/catalog/' + itemChild.CODE + '/'" title="Детский транспорт">{{ itemChild.NAME }}</nuxt-link>
+                  <nuxt-link :to="{ name: 'catalog-section', params: { section: itemChild.CODE } }" title="Детский транспорт">{{ itemChild.NAME }}</nuxt-link>
               </li>
             </ul>
           </li>

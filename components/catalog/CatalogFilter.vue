@@ -1,71 +1,73 @@
 <template>
   <div class="smart-filter">
-    <div class="filter-items">
-      <div class="item-row price-row">
-        <div class="item-name">Цена</div>
-        <div class="price-range">
-            <div class="range-inputs">
-              <div class="input-cell">
-                <input class="text-input" type="text" v-model="priceValue[0]">
+    <div class="filter-block" v-if="priceData.VALUES != undefined || filterItems.length > 0">
+      <div class="filter-items">
+        <div class="item-row price-row">
+          <div class="item-name">Цена</div>
+          <div class="price-range" v-if="priceData.VALUES != undefined">
+              <div class="range-inputs">
+                <div class="input-cell">
+                  <input class="text-input" type="text" v-model="priceValue[0]">
+                </div>
+                <div class="input-cell">
+                  <input class="text-input" type="text" v-model="priceValue[1]">
+                </div>
               </div>
-              <div class="input-cell">
-                <input class="text-input" type="text" v-model="priceValue[1]">
+              <div class="range">
+                <vue-slider
+                  :v-if="priceValue[0] > 0 && priceValue[1] > 0"
+                  @drag-end="filterUpdate" 
+                  :marks="false"
+                  :min="parseInt(priceData.VALUES.MIN.VALUE)"
+                  :max="parseInt(priceData.VALUES.MAX.VALUE)"
+                  v-model="priceValue" 
+                  :enable-cross="false" >
+                </vue-slider>
               </div>
-            </div>
-            <div class="range">
-              <vue-slider
-                :v-if="priceValue[0] > 0 && priceValue[1] > 0"
-                @drag-end="filterUpdate" 
-                :marks="false"
-                :min="parseInt(this.priceData.VALUES.MIN.VALUE)"
-                :max="parseInt(this.priceData.VALUES.MAX.VALUE)"
-                v-model="priceValue" 
-                :enable-cross="false" >
-              </vue-slider>
-            </div>
-        </div>
-      </div>
-      <div class="item-row" v-for="item in filterItems" :key="item.ID">
-        <div class="item-name">{{ item.NAME }}</div>
-        <div class="check-box-row" v-if="item.PROPERTY_TYPE == 'L'" >
-          <div class="check-box-input" v-for="valueItem in item.VALUES" :key="valueItem.URL_ID">
-            <div class="checkbox">
-              <input type="checkbox"
-                :id="valueItem.CONTROL_ID"
-                :checked="valueItem.CHECKED" 
-                v-model="filterCheckBoxValues[valueItem.CONTROL_ID + '|' + valueItem.HTML_VALUE]" 
-                @change='filterUpdate'>
-              <label :for="valueItem.CONTROL_ID"><span></span>
-                {{ valueItem.VALUE}}
-                <i class="filter-count">({{ valueItem.ELEMENT_COUNT }})</i>
-              </label>
-            </div>
           </div>
         </div>
-        <div class="input-rang-row" v-if="item.PROPERTY_TYPE == 'N'">
-            <div class="range-inputs">
-              <div class="input-cell">
-                <input class="text-input" type="text" v-model="filterRangeValues[item.ID][0]">
-              </div>
-              <div class="input-cell">
-                <input class="text-input" type="text" v-model="filterRangeValues[item.ID][1]">
+        <div class="item-row" v-for="item in filterItems" :key="item.ID">
+          <div class="item-name">{{ item.NAME }}</div>
+          <div class="check-box-row" v-if="item.PROPERTY_TYPE == 'L'" >
+            <div class="check-box-input" v-for="valueItem in item.VALUES" :key="valueItem.URL_ID">
+              <div class="checkbox">
+                <input type="checkbox"
+                  :id="valueItem.CONTROL_ID"
+                  :checked="valueItem.CHECKED" 
+                  v-model="filterCheckBoxValues[valueItem.CONTROL_ID + '|' + valueItem.HTML_VALUE]" 
+                  @change='filterUpdate'>
+                <label :for="valueItem.CONTROL_ID"><span></span>
+                  {{ valueItem.VALUE}}
+                  <i class="filter-count">({{ valueItem.ELEMENT_COUNT }})</i>
+                </label>
               </div>
             </div>
-            <div class="range">
-              <vue-slider
-                :v-if="filterRangeValues[item.ID][0] > 0 && filterRangeValues[item.ID][1] > 0"
-                @drag-end="filterUpdate" 
-                :marks="false"
-                :min="parseInt(filterResult.ITEMS[item.ID].VALUES.MIN.VALUE)"
-                :max="parseInt(filterResult.ITEMS[item.ID].VALUES.MAX.VALUE)"
-                v-model="filterRangeValues[item.ID]" 
-                :enable-cross="false" >
-              </vue-slider>
-            </div>
-        </div> 
-      </div>
-      <div class="button-row">
-        <button @click="setFilter">set-filter</button>
+          </div>
+          <div class="input-rang-row" v-if="item.PROPERTY_TYPE == 'N'">
+              <div class="range-inputs">
+                <div class="input-cell">
+                  <input class="text-input" type="text" v-model="filterRangeValues[item.ID][0]">
+                </div>
+                <div class="input-cell">
+                  <input class="text-input" type="text" v-model="filterRangeValues[item.ID][1]">
+                </div>
+              </div>
+              <div class="range">
+                <vue-slider
+                  :v-if="filterRangeValues[item.ID][0] > 0 && filterRangeValues[item.ID][1] > 0"
+                  @drag-end="filterUpdate" 
+                  :marks="false"
+                  :min="parseInt(filterResult.ITEMS[item.ID].VALUES.MIN.VALUE)"
+                  :max="parseInt(filterResult.ITEMS[item.ID].VALUES.MAX.VALUE)"
+                  v-model="filterRangeValues[item.ID]" 
+                  :enable-cross="false" >
+                </vue-slider>
+              </div>
+          </div> 
+        </div>
+        <div class="button-row">
+          <button @click="setFilter">set-filter</button>
+        </div>
       </div>
     </div>
   </div>
@@ -77,7 +79,7 @@ import 'vue-slider-component/dist-css/vue-slider-component.css'
 import 'vue-slider-component/theme/default.css'
 
 export default {
-  props: ['filterData', 'navId'],
+  props: ['filterData'],
   data() {
     return {
       value: 0,
@@ -87,9 +89,9 @@ export default {
       price: [0, 0]
     }
   },
-  created() {
-   this.filterResult = this.filterData;
-   this.obtainValues();
+  mounted() {
+    this.filterResult = this.filterData;
+    this.obtainValues();
   },
   components: {
     VueSlider
@@ -104,6 +106,21 @@ export default {
       set(val) {
         this.price = val;
       }
+    },
+    filterApiParamsUrl() {
+      let sectionPath = this.$route.fullPath.split('/filter/')[0];
+
+      if (sectionPath.length == 0) {
+        sectionPath = this.$route.fullPath;
+      }
+      
+      sectionPath += '/';
+      sectionPath = sectionPath.replace('//', '/');
+
+      let url = this.$api(sectionPath + '?' + this.getFilterQuery());
+      url = url.replace("catalog", 'catalog-filter');
+      
+      return url;
     },
     filterItems: {
       get() {
@@ -121,33 +138,31 @@ export default {
       }
     },
     priceData() {
-      let result = {};
-      let prices = Object.keys(this.filterResult.PRICES);
-      if (prices.length > 0) {
-        let priceCode = prices[0];
-        if (this.filterResult.ITEMS[priceCode] != undefined) {
-          result = this.filterResult.ITEMS[priceCode];
+      let result = {}
+      if (this.filterResult.PRICES !=undefined) {
+        let prices = Object.keys(this.filterResult.PRICES);
+        if (prices.length > 0) {
+          let priceCode = prices[0];
+          if (this.filterResult.ITEMS[priceCode] != undefined) {
+            result = this.filterResult.ITEMS[priceCode];
+          }
         }
       }
+
       return result;
     }
   },
   methods: {
-    async filterUpdate() {
-      let sectionPath = this.$route.fullPath.split('/filter/')[0];
-
-      if (sectionPath.length == 0) {
-        sectionPath = this.$route.fullPath;
-      }
-      
-      sectionPath += '/';
-      sectionPath = sectionPath.replace('//', '/');
-
-      let url = this.$api(sectionPath + '?' + this.getFilterQuery());
-      url = url.replace("catalog", 'catalog-filter');
-      
+    async loadData() {
+      let url = this.$route.fullPath;
+      url = this.$api(url);
+      url = url.replace('catalog', 'catalog-filter');
       let response = await this.$axios.$get(url);
-
+      this.filterResult = response;
+      this.obtainValues();
+    },
+    async filterUpdate() {
+      let response = await this.$axios.$get(this.filterApiParamsUrl);
       this.filterResult = response;
     },
     setFilter() {
@@ -157,9 +172,9 @@ export default {
       }
       
       let filterUri = '';
-     
+
       if (this.filterResult.FILTER_URL.length > 0) {
-        filterUri = sectionPath +"/filter/" + this.filterResult.FILTER_URL;
+        filterUri = sectionPath +"/filter/" + this.filterResult.FILTER_URL + '/';
       } else {
         filterUri = sectionPath + '/';
       }
@@ -189,8 +204,6 @@ export default {
       queryParamsArr.push('set_filter=y');
 
       for (let i in currentQuery) {
-          if (i == this.navId ) continue;
-
           queryParamsArr.push(i + '=' + currentQuery[i]);
       }
 
@@ -245,15 +258,17 @@ export default {
           ];
         } 
       }
-    
-      let prices = Object.keys(this.filterResult.PRICES);
 
-      if (prices.length > 0) {
-        let priceCode = prices[0];
-        if (this.filterResult.ITEMS[priceCode] != undefined) {
-          let itemValue = this.priceData.VALUES;
-          this.price[0] = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MIN.VALUE);
-          this.price[1] = parseInt(itemValue.MAX.HTML_VALUE) ? parseInt(itemValue.MAX.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
+      if (this.filterResult.PRICES != undefined) {
+        let prices = Object.keys(this.filterResult.PRICES);
+
+        if (prices.length > 0) {
+          let priceCode = prices[0];
+          if (this.filterResult.ITEMS[priceCode] != undefined) {
+            let itemValue = this.priceData.VALUES;
+            this.price[0] = parseInt(itemValue.MIN.HTML_VALUE) ? parseInt(itemValue.MIN.HTML_VALUE) : parseInt(itemValue.MIN.VALUE);
+            this.price[1] = parseInt(itemValue.MAX.HTML_VALUE) ? parseInt(itemValue.MAX.HTML_VALUE) : parseInt(itemValue.MAX.VALUE);
+          }
         }
       }
     },

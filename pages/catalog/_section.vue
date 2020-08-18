@@ -2,20 +2,15 @@
   <div class="flex-wrapper-sidebar">
     <SideBar>
       <client-only>
-        <CatalogFilter @set-smart-filter="onSetFilter" :filterData="page.filter" :navId="page.nav.id"/>
+        <CatalogFilter v-if="page.filter != undefined" @set-smart-filter="onSetFilter" :filterData="page.filter"/>
       </client-only>
     </SideBar>
     <div class="content">
       <Breadcrumbs :crumbsItems="crumbsItems"/>
       <SortPanel :sortData="page.sorting" @onSort="sort"/>
-      <div>{{ page.section.NAME }}</div>
-      <div class="items">
-        <div class="item" v-for="item in page.items" :key="item.ID">
-          <div><nuxt-link :title="item.NAME" :to="{ name: 'product-id', params: { id: item.ID } }">{{ item.NAME }}</nuxt-link></div>
-          <div>ID:{{ item.ID }}</div>
-          <div><img :src="item.RESIZE_PREVIEW_PICTURE.small.src" alt=""></div>
-          <div>Цена:{{ item.PRICE }}</div>
-        </div>
+      <h1>{{ page.section.NAME }}</h1>
+      <div class="catalog-items">
+        <CatalogItem  v-for="item in page.items" :key="item.ID" :item="item"/>
       </div>
       <paginate
         :navId="page.nav.id"
@@ -36,6 +31,7 @@ import SideBar from '~~/components/SideBar.vue';
 import Paginate from '~~/components/Pagenation.vue';
 import SortPanel from '~~/components/SortPanel.vue';
 import Breadcrumbs from '~~/components/Breadcrumbs.vue';
+import CatalogItem from '~~/components/catalog/CatalogItem.vue';
 
 export default {
   async asyncData({ app, params, route, error }){
@@ -58,7 +54,8 @@ export default {
     SideBar,
     Paginate,
     SortPanel,
-    Breadcrumbs
+    Breadcrumbs,
+    CatalogItem
   },
   mounted() {
 
@@ -71,12 +68,25 @@ export default {
       return this.$store.getters['catalog/catalogListPage'];
     },
     crumbsItems() {
-      return [
+      let arr = [
         {
-          title: this.page.section.NAME,
-          link: '',
+          title: 'Каталог',
+          link: '/catalog/',
         }
-      ]
+      ];
+
+      for (let i in this.page.section.PATH) {
+        let route = this.$router.resolve({ 
+          name: 'catalog-section',
+          params: { section: this.page.section.PATH[i].CODE},
+        });
+        arr.push({
+          title: this.page.section.PATH[i].NAME,
+          link: route.href
+        });
+      }
+   
+      return arr;
     },
   },
   head () {
@@ -93,12 +103,12 @@ export default {
   },
   methods: {
     onSetFilter(params) {
-      console.log(params);
       this.$router.push({
         path: params.filterUri,
         query: this.$route.query,
       }, async()=>{
         let result = await this.$store.dispatch('catalog/fetchCatalogList', params.filterParams);
+        console.log(result);
       });
     },
     setPage(pageId) {
