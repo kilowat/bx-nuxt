@@ -1,0 +1,20 @@
+<template>
+  <ul class="page-menu">
+    <li v-for="item in items" :key="item.ID">
+      <nuxt-link v-if="item.CODE == 'index'" :to="'/'">{{ item.NAME }}</nuxt-link>
+      <nuxt-link v-else :to="{ name: 'page', params: { page: item.CODE } }">{{ item.NAME }}</nuxt-link>
+    </li>
+  </ul>
+</template>
+<script>
+export default {
+  computed: {
+    items() {
+      return this.$store.getters['pages/list'];
+    }
+  }  
+}
+</script>
+<style lang="sass" scoped>
+
+</style>

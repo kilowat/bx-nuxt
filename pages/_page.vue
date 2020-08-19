@@ -1,14 +1,18 @@
 <template>
-  <div class="page-content" v-html="page.DETAIL_TEXT"></div>
+  <div class="content page-content">
+    <Breadcrumbs :crumbsItems="crumbsItems"/>
+    <h1>{{ page.NAME }}</h1>
+    <div class="text"  v-html="page.DETAIL_TEXT"></div>
+  </div>
 
 </template>
 
 <script>
-
+import Breadcrumbs from '~~/components/Breadcrumbs.vue';
 export default {
     async asyncData({ app, params, $axios, route, error }) {
     try{
-      let { data } = await $axios.get(app.$api('/page/index'))
+      let { data } = await $axios.get(app.$api(`/page/${route.params.page}`))
       return { page : data };
     }catch(err){
       console.log(err)
@@ -18,7 +22,7 @@ export default {
       })
     }
   },
-    head () {
+  head () {
     return {
       title: this.page.ELEMENT_META_TITLE,
       meta: [
@@ -35,7 +39,17 @@ export default {
     }
   },
   components: {
-    
+    Breadcrumbs
+  },
+  computed: {
+    crumbsItems() {
+      return [
+        {
+          title: this.page.NAME,
+          link: '',
+        }
+      ]
+    },
   }
 }
 </script>

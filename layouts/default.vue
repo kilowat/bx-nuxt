@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <div class="page">
     <HeaderBlock />
-    <main class="wrapper">
+    <main class="container">
         <nuxt />
     </main>
+    <FooterBlock />
   </div>
 </template>
 
 <script>
-import HeaderBlock from '~~/components/Header/HeaderBlock';
-
+import HeaderBlock from '~~/components/header/HeaderBlock';
+import FooterBlock from '~~/components/footer/FooterBlock.vue';
 export default {
   computed: {
     meta() {
@@ -19,7 +20,7 @@ export default {
           name: 'viewport',
           content: 'width=device-width, initial-scale=1, maximum-scale=1 shrink-to-fit=no'
         },
-        { hid: 'description', name: 'description', content: 'Главная' }
+        { hid: 'description', name: 'description', content: '' }
       ]
     },
   },
@@ -36,6 +37,7 @@ export default {
   },
   components: {
     HeaderBlock,
+    FooterBlock
   }
 }
 </script>
@@ -54,8 +56,8 @@ export default {
 .layout-leave-active {
   opacity: 0
 }
-.wrapper{
-  @include globalWrapper();
+.container{
+  @include globalContainer();
 }
 html{
   font-size: $font-size;
@@ -65,7 +67,16 @@ html{
 .ruble{
   font-family: als_rublregular;
 }
-
+main{
+  flex-grow: 1;
+}
+.page{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+}
 *,
 *:before,
 *:after {

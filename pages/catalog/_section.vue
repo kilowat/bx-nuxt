@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+
 import CatalogFilter from '~~/components/catalog/CatalogFilter.vue';
 import SideBar from '~~/components/SideBar.vue';
 import Paginate from '~~/components/Pagenation.vue';
@@ -80,6 +80,7 @@ export default {
           name: 'catalog-section',
           params: { section: this.page.section.PATH[i].CODE},
         });
+
         arr.push({
           title: this.page.section.PATH[i].NAME,
           link: route.href

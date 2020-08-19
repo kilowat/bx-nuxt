@@ -20,10 +20,12 @@ $color-acent: $color-blue;
 $color-link-hover: $color-red;
 ////////////////////////////////////
 
-@mixin globalWrapper {
+@mixin globalContainer {
   max-width: 1200px;
   min-width: 300px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
+  width: 100%;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class=sort-panel>
+  <div class="sort-panel">
     <div class="sort-item" v-for="item in sortData" :key="item.id">
       <label>{{ item.name }}</label>
       <input type="radio" v-model="order" name="order" @change="sort" :value="item.param+'_asc'">asc

@@ -1,5 +1,6 @@
 <template>
-    <div class="wrapper">
+  <div class="menu-container">
+    <div class="container">
       <nav class="top-nav catalog-menu">
         <ul class="catalog-top-menu">
           <li class="has-child" v-for="item in treeItems" :key="item.ID">
@@ -13,6 +14,7 @@
         </ul>
       </nav>
     </div>
+  </div>
 </template>
 <script>
 export default {
@@ -24,8 +26,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-header .catalog-top-menu{
+.menu-container{
   background-color: #f11516;
+}
+header .catalog-top-menu{
   display: flex;
   align-items: center;
   justify-content: space-around;

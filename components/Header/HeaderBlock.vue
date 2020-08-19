@@ -1,17 +1,14 @@
 <template>
 <header class="header">
   <div class="header-container">
-    <div class="wrapper">
+    <div class="container">
       <div class="header-top">
         <Logo />
+         <PhoneNumber />
         <div class="right-block">
-          <FixedMenu />
           <Search />
           <div class="user-block">
             <CompareCount />
-          </div>
-          <div class="user-block">
-            <DesireCount />
           </div>
           <div class="user-block user-lk">
             <!--start user menu component-->
@@ -36,10 +33,8 @@
 <script>
 import TopCatalogMenu from '~/components/Header/TopCatalogMenu';
 import Logo from '~/components/Header/Logo';
-import FixedMenu from '~/components/Header/FixedMenu';
 import Search from '~/components/Header/Search';
 import CompareCount from '~/components/Header/CompareCount';
-import DesireCount from '~/components/Header/DesireCount';
 import AuthLink from '~/components/Header/AuthLink';
 import SmallBasket from '~/components/Header/SmallBasket'
 
@@ -47,10 +42,8 @@ export default {
   components: {
     TopCatalogMenu,
     Logo,
-    FixedMenu,
     Search,
     CompareCount,
-    DesireCount,
     AuthLink,
     SmallBasket
   }
@@ -59,10 +52,6 @@ export default {
 <style lang="scss">
 
 .header{
-  .wrapper{
-    position: relative;
-    @include globalWrapper();
-  }
   .top-nav{
     @include breakpoint(max-width 980px){
       display: none;

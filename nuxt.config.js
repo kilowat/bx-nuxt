@@ -5,7 +5,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    title: process.env.npm_package_name || '',
+    titleTemplate: '%s - Префикс в title',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -35,6 +35,7 @@ export default {
   */
   plugins: [
     '~/plugins/utils.js',
+    '~/plugins/global.js',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -58,7 +59,8 @@ export default {
   axios: {
   },
   redirect: [
-    { from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$', to: '$1/$2', }
+    { from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$', to: '$1/$2', },
+    { from: '/index/', to: '/', }
   ],
   styleResources: {
     scss: [

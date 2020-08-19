@@ -1,11 +1,9 @@
 export const actions = {
-  async nuxtServerInit ({ dispatch, getters }, { req }) {
-    if (getters['catalog/sectionTree'].length == 0) {
-      try {
-        await dispatch('catalog/fetchSectionsTree');
-      } catch(e) {
-        console.log(e);
-      }
-    }
+  async nuxtServerInit ( context ) {
+    return Promise.all([
+      context.dispatch('catalog/fetchSectionsTree'),
+      context.dispatch('pages/fetchAll'),
+      context.dispatch('site/fetchInfo'),
+    ]);
   }
 }
