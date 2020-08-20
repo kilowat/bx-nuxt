@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Breadcrumbs from '~~/components/Breadcrumbs.vue';
+import Breadcrumbs from '~/components/Breadcrumbs.vue';
 export default {
     async asyncData({ app, params, $axios, route, error }) {
     try{

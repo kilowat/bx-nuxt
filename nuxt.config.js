@@ -41,6 +41,7 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
+    
   ],
   /*
   ** Nuxt.js modules
@@ -50,7 +51,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/style-resources',
     'nuxt-webfontloader',
-    '@nuxtjs/redirect-module'
+    '@nuxtjs/redirect-module',
+    '@nuxtjs/router'
   ],
   /*
   ** Axios module configuration
@@ -62,6 +64,9 @@ export default {
     { from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$', to: '$1/$2', },
     { from: '/index/', to: '/', }
   ],
+  routerModule: {
+    keepDefaultRouter: true,
+  },
   styleResources: {
     scss: [
       '~/assets/scss/global-variables.scss',

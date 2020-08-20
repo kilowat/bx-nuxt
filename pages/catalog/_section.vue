@@ -26,12 +26,12 @@
 </template>
 <script>
 
-import CatalogFilter from '~~/components/catalog/CatalogFilter.vue';
-import SideBar from '~~/components/SideBar.vue';
-import Paginate from '~~/components/Pagenation.vue';
-import SortPanel from '~~/components/SortPanel.vue';
-import Breadcrumbs from '~~/components/Breadcrumbs.vue';
-import CatalogItem from '~~/components/catalog/CatalogItem.vue';
+import CatalogFilter from '~/components/catalog/CatalogFilter.vue';
+import SideBar from '~/components/SideBar.vue';
+import Paginate from '~/components/Pagenation.vue';
+import SortPanel from '~/components/SortPanel.vue';
+import Breadcrumbs from '~/components/Breadcrumbs.vue';
+import CatalogItem from '~/components/catalog/CatalogItem.vue';
 
 export default {
   async asyncData({ app, params, route, error }){
@@ -109,30 +109,18 @@ export default {
         query: this.$route.query,
       }, async()=>{
         let result = await this.$store.dispatch('catalog/fetchCatalogList', params.filterParams);
-        console.log(result);
       });
     },
-    setPage(pageId) {
-      let queryParam = {};
-      queryParam[this.page.nav.id] = 'page-' + pageId;
-      this.updatePage(queryParam);
+    updatePage(queryParams) {
+      this.$makeParamRequest(queryParams, async (url)=>{
+          await this.$store.dispatch('catalog/fetchCatalogList', url );
+      });
+    },
+    setPage(selected) {
+      this.updatePage(selected.queryParam);
     },
     sort(order) {
       this.updatePage({order: order});
-    },
-    updatePage(queryParams) {
-      let query = Object.assign({}, this.$route.query);
-      
-      for (let i in queryParams) {
-        query[i] = queryParams[i];
-      }
-
-      this.$router.push({
-          path: this.$route.path,
-          query: query,
-      }, async()=>{
-        await this.$store.dispatch('catalog/fetchCatalogList', this.$route.fullPath );
-      });
     },
   }
 }

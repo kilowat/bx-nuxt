@@ -108,10 +108,10 @@ export default {
       }
     },
     filterApiParamsUrl() {
-      let sectionPath = this.$route.fullPath.split('/filter/')[0];
+      let sectionPath = this.$route.path.split('/filter/')[0];
 
       if (sectionPath.length == 0) {
-        sectionPath = this.$route.fullPath;
+        sectionPath = this.$route.path;
       }
       
       sectionPath += '/';
@@ -119,7 +119,7 @@ export default {
 
       let url = this.$api(sectionPath + '?' + this.getFilterQuery());
       url = url.replace("catalog", 'catalog-filter');
-      
+     
       return url;
     },
     filterItems: {
@@ -166,9 +166,9 @@ export default {
       this.filterResult = response;
     },
     setFilter() {
-      let sectionPath = this.$route.fullPath.split('/filter/')[0];
+      let sectionPath = this.$route.path.split('/filter/')[0];
       if (sectionPath.length == 0) {
-        sectionPath = this.$route.fullPath;
+        sectionPath = this.$route.path;
       }
       
       let filterUri = '';
@@ -179,10 +179,11 @@ export default {
         filterUri = sectionPath + '/';
       }
 
-      let filterParams = sectionPath + '/' + '?' + this.getFilterQuery();
+      filterUri = filterUri + "?" + this.getCurrentQueryString();
       
-      filterParams = filterParams.replace('//', '/');
+      let filterParams = sectionPath + '/' + '?' + this.getFilterQuery();
      
+      filterParams = filterParams.replace('//', '/');
       filterUri = filterUri.replace('//', '/');
 
       this.$emit('set-smart-filter', { filterParams, filterUri });
@@ -204,7 +205,9 @@ export default {
       queryParamsArr.push('set_filter=y');
 
       for (let i in currentQuery) {
-          queryParamsArr.push(i + '=' + currentQuery[i]);
+        if (currentQuery[i].indexOf('page') !== -1) continue;
+       
+        queryParamsArr.push(i + '=' + currentQuery[i]);
       }
 
       for (let i in this.filterCheckBoxValues) {

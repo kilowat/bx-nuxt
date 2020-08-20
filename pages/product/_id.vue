@@ -7,7 +7,6 @@
     </div>
 </template>
 <script>
-import Breadcrumbs from '~~/components/Breadcrumbs.vue';
 
 export default {
     async asyncData({ app, params, route, $axios, error }){
@@ -36,7 +35,7 @@ export default {
     }
   },
   components: {
-    Breadcrumbs
+   
   },
   computed:{
     crumbsItems() {

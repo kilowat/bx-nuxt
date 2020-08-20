@@ -11,10 +11,10 @@
   </footer>
 </template>
 <script>
-
+import PageMenu from '~/components/PageMenu.vue';
 export default {
   components: {
- 
+    PageMenu
   },
 }
 </script>

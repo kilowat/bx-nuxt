@@ -236,7 +236,13 @@ export default {
       if (this.selected === selected) return
       this.innerValue = selected
       this.$emit('input', selected)
-      this.clickHandler(selected)
+
+      let queryParam = {};
+      queryParam[this.navId] = 'page-' + selected;
+      this.clickHandler({
+        id: selected,
+        queryParam: queryParam
+      });
     },
     prevPage(event) {
       if (event)
