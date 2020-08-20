@@ -31,12 +31,12 @@
 </template>
 
 <script>
-import TopCatalogMenu from '~/components/Header/TopCatalogMenu.vue';
-import Logo from '~/components/Header/Logo.vue';
-import Search from '~/components/Header/Search.vue';
-import CompareCount from '~/components/Header/CompareCount.vue';
-import AuthLink from '~/components/Header/AuthLink.vue';
-import SmallBasket from '~/components/Header/SmallBasket.vue';
+import TopCatalogMenu from '~/components/header/TopCatalogMenu.vue';
+import Logo from '~/components/header/Logo.vue';
+import Search from '~/components/header/Search.vue';
+import CompareCount from '~/components/header/CompareCount.vue';
+import AuthLink from '~/components/header/AuthLink.vue';
+import SmallBasket from '~/components/header/SmallBasket.vue';
 
 export default {
   components: {
