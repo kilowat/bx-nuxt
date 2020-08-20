@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import HeaderBlock from '~~/components/header/HeaderBlock';
+import HeaderBlock from '~~/components/header/HeaderBlock.vue';
 import FooterBlock from '~~/components/footer/FooterBlock.vue';
 export default {
   computed: {
