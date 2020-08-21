@@ -29,10 +29,9 @@ export default {
       let { data } = await $axios.get(app.$api(route.fullPath))
       return { page : data };
     }catch(err){
-      console.log(err)
       return error({
-        statusCode: 404,
-        message: 'Страница не найдена или сервер не доступен'
+        statusCode: err.response.status,
+        message: err.response.statusText
       })
     }
   },

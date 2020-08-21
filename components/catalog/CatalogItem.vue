@@ -4,7 +4,9 @@
     <div><nuxt-link :title="item.NAME" :to="{ name: 'product-id', params: { id: item.ID } }">{{ item.NAME }}</nuxt-link></div>
     <div>
       <nuxt-link :title="item.NAME" :to="{ name: 'product-id', params: { id: item.ID } }">
-        <img :src="item.RESIZE_PREVIEW_PICTURE.small.src" alt="">
+        <img
+          :width="item.RESIZE_PREVIEW_PICTURE.small.width" :height="item.RESIZE_PREVIEW_PICTURE.small.height" 
+          v-lazy="item.RESIZE_PREVIEW_PICTURE.small.src" alt="">
       </nuxt-link>
       </div>
     <div>Цена:{{ item.PRICE }}</div>
@@ -15,3 +17,6 @@ export default {
   props:['item']
 }
 </script>
+<style lang="scss" scoped>
+
+</style>

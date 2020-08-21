@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-wrapper-sidebar">
+  <div class="flex-wrapper-sidebar" v-if="page != undefined">
     <SideBar>
       <client-only>
         <CatalogFilter v-if="page.filter != undefined" @set-smart-filter="onSetFilter" :filterData="page.filter"/>
@@ -38,10 +38,9 @@ export default {
     try{
       await app.store.dispatch('catalog/fetchCatalogList', route.fullPath )
     }catch(err){
-      console.log(err)
       return error({
-        statusCode: 404,
-        message: 'Категория не найдена или сервер не доступен'
+        statusCode: err.response.status,
+        message: err.response.statusText
       })
     }
   },
@@ -91,6 +90,9 @@ export default {
     },
   },
   head () {
+    if( !this.page ) {
+      return {}
+    }
     return {
       title: this.page.section.NAME,
       meta: [

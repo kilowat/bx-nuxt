@@ -2,7 +2,7 @@
   <div class="page">
     <HeaderBlock />
     <main class="container">
-        <nuxt />
+      <nuxt />
     </main>
     <FooterBlock />
   </div>
@@ -69,6 +69,7 @@ html{
 }
 main{
   flex-grow: 1;
+  padding-bottom: 15px;
 }
 .page{
   display: flex;

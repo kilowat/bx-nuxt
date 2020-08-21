@@ -23,7 +23,6 @@ export const mutations = {
 export const actions = {
   async fetchCatalogList({commit}, path){
     let page = await this.$axios.$get(this.$api(path));
-
     commit('setCatalogSectionPage', page);
   },
   async fetchSectionsTree({commit} ) {
