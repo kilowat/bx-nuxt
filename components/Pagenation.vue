@@ -37,6 +37,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     value: {
@@ -239,6 +240,7 @@ export default {
 
       let queryParam = {};
       queryParam[this.navId] = 'page-' + selected;
+
       this.clickHandler({
         id: selected,
         queryParam: queryParam

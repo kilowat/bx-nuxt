@@ -36,7 +36,7 @@ import Logo from '~/components/header/Logo.vue';
 import Search from '~/components/header/Search.vue';
 import CompareCount from '~/components/header/CompareCount.vue';
 import AuthLink from '~/components/header/AuthLink.vue';
-import SmallBasket from '~/components/header/SmallBasket.vue';
+import SmallBasket from '~/components/basket/SmallBasket.vue';
 import PhoneNumber from '~/components/PhoneNumber.vue';
 
 export default {

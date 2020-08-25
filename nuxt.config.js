@@ -34,7 +34,7 @@ module.exports = {
   ],
   plugins: [
     '~/plugins/utils.js',
-    '~/plugins/global.js',
+    '~/plugins/global.client.js',
     '~/plugins/vue-lazy-load.js',
     '~/plugins/swiper.js',
   ],
@@ -46,7 +46,8 @@ module.exports = {
     '@nuxtjs/style-resources',
     '@nuxtjs/redirect-module',
     'nuxt-trailingslash-module',
-    '@nuxtjs/router'
+    '@nuxtjs/router',
+    '@nuxtjs/proxy'
   ],
   redirect: [
     //{ from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$', to: '$1/$2', },
@@ -75,7 +76,13 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
+    //browserBaseURL: 'http://dev.local',
+    proxy: true,
     // See https://github.com/nuxt-community/axios-module#options
+  },
+  proxy: {
+    '/api': { target: 'http://192.168.1.48', changeOrigin: true },
+    '/upload': { target: 'http://192.168.1.48', changeOrigin: true },
   },
   render: {
     // http2: {
@@ -157,75 +164,17 @@ module.exports = {
       order: 'cssnanoLast'
     },
     extend (config, ctx) {
-      const ORIGINAL_TEST = '/\\.(png|jpe?g|gif|svg|webp)$/i'
-      const vueSvgLoader = [
-        {
-          loader: 'vue-svg-loader',
-          options: {
-            svgo: false
-          }
-        }
-      ]
-      const imageMinPlugin = new ImageminPlugin({
-        pngquant: {
-          quality: '5-30',
-          speed: 7,
-          strip: true
-        },
-        jpegtran: {
-          progressive: true
+      const svgRule = config.module.rules.find(rule => rule.test.test('.svg'));
 
-        },
-        gifsicle: {
-          interlaced: true
-        },
-        plugins: [
-          imageminMozjpeg({
-            quality: 70,
-            progressive: true
-          })
+      svgRule.test = /\.(png|jpe?g|gif|webp)$/;
 
-        ]
-      })
-      if (!ctx.isDev) config.plugins.push(imageMinPlugin)
-
-      config.module.rules.forEach(rule => {
-        if (rule.test.toString() === ORIGINAL_TEST) {
-          rule.test = /\.(png|jpe?g|gif|webp)$/i
-          rule.use = [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 1000,
-                name: ctx.isDev ? '[path][name].[ext]' : 'img/[contenthash:7].[ext]'
-              }
-            }
-          ]
-        }
-      })
-      //  Create the custom SVG rule
-      const svgRule = {
+      config.module.rules.push({
         test: /\.svg$/,
-        oneOf: [
-          {
-            resourceQuery: /inline/,
-            use: vueSvgLoader
-          },
-          {
-            resourceQuery: /data/,
-            loader: 'url-loader'
-          },
-          {
-            resourceQuery: /raw/,
-            loader: 'raw-loader'
-          },
-          {
-            loader: 'file-loader' // By default, always use file-loader
-          }
-        ]
-      }
-
-      config.module.rules.push(svgRule) // Actually add the rule
+        use: [
+          'babel-loader',
+          'vue-svg-loader',
+        ],
+      });
     }
   }
 }

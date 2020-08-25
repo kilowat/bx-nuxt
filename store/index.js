@@ -4,6 +4,7 @@ export const actions = {
       context.dispatch('catalog/fetchSectionsTree'),
       context.dispatch('pages/fetchAll'),
       context.dispatch('site/fetchInfo'),
+      context.dispatch('basket/getData'),
     ]);
   }
 }

@@ -1,3 +1,8 @@
+import axios from 'axios'
+import { store } from '../store/index'
+
+
+
 export const state = () => ({
   info: {}
 })
@@ -17,5 +22,5 @@ export const actions = {
   async fetchInfo({ commit }) {
     let info = await this.$axios.$get(this.$api('/siteInfo'));
     commit('setInfo', info);
-  }
+  },
 };

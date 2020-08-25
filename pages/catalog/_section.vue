@@ -9,18 +9,21 @@
       <Breadcrumbs :crumbsItems="crumbsItems"/>
       <SortPanel :sortData="page.sorting" @onSort="sort"/>
       <h1>{{ page.section.NAME }}</h1>
-      <div class="catalog-items">
-        <CatalogItem  v-for="item in page.items" :key="item.ID" :item="item"/>
+      <div class="catalog">
+        <Loading :active="loading" :fade="true"/>
+        <div class="catalog-items">
+          <CatalogItem  v-for="item in page.items" :key="item.ID" :item="item"/>
+        </div>
+        <paginate
+          :navId="page.nav.id"
+          :click-handler="setPage"
+          :page-count="page.nav.totalPage"
+          :page-range="page.nav.pageSize"
+          :prev-text="'Prev'"
+          :next-text="'Next'"
+          :container-class="'pagenation'">
+        </paginate>
       </div>
-      <paginate
-        :navId="page.nav.id"
-        :click-handler="setPage"
-        :page-count="page.nav.totalPage"
-        :page-range="page.nav.pageSize"
-        :prev-text="'Prev'"
-        :next-text="'Next'"
-        :container-class="'pagenation'">
-      </paginate>
     </div>
   </div>
 </template>
@@ -32,6 +35,7 @@ import Paginate from '~/components/Pagenation.vue';
 import SortPanel from '~/components/SortPanel.vue';
 import Breadcrumbs from '~/components/Breadcrumbs.vue';
 import CatalogItem from '~/components/catalog/CatalogItem.vue';
+import Loading from '~/components/Loading.vue';
 
 export default {
   async asyncData({ app, params, route, error }){
@@ -46,6 +50,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
     }
   },
   components: {
@@ -54,7 +59,8 @@ export default {
     Paginate,
     SortPanel,
     Breadcrumbs,
-    CatalogItem
+    CatalogItem,
+    Loading
   },
   mounted() {
 
@@ -110,16 +116,22 @@ export default {
         path: params.filterUri,
         query: this.$route.query,
       }, async()=>{
+        this.loading = true;
         let result = await this.$store.dispatch('catalog/fetchCatalogList', params.filterParams);
+        this.loading = false;
+        this.$scrollTo('body');
       });
     },
     updatePage(queryParams) {
       this.$makeParamRequest(queryParams, async (url)=>{
-          await this.$store.dispatch('catalog/fetchCatalogList', url );
+        this.loading = true;
+        await this.$store.dispatch('catalog/fetchCatalogList', url );
+        this.loading = false;
       });
     },
     setPage(selected) {
       this.updatePage(selected.queryParam);
+      this.$scrollTo('body');
     },
     sort(order) {
       this.updatePage({order: order});

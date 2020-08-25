@@ -3,7 +3,7 @@ export default (context, inject) => {
     if (uri[0] !== '/') {
       uri = '/' + uri;
     }
-    return 'http://192.168.1.48/api'+ uri;
+    return '/api'+ uri;
   };
 
   inject('api', api)

@@ -82,6 +82,7 @@ export default {
   props: ['filterData'],
   data() {
     return {
+      loading: false,
       value: 0,
       filterResult: {},
       filterCheckBoxValues: {},
