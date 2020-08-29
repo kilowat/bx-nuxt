@@ -26,7 +26,7 @@ export const actions = {
     let { data } = await this.$axios.get(this.$api('basket/list'));
     commit('setBasket', data);
   },
-  async update({ commit }) {
+  async update({ commit }, params) {
     let { data } = await this.$axios.post(this.$api(`basket/update/${params.id}`), params )
     if (data.error != null) {
       throw(data.error);
@@ -36,5 +36,12 @@ export const actions = {
   async clear({ commit }) {
     let { data } = await this.$axios.post(this.$api('basket/clear'));
     commit('setBasket', data);
+  },
+  async setCoupon({ commit }, params) {
+    let { data } = await this.$axios.post(this.$api('basket/coupon'), params);
+    if (data.error != null) {
+      throw(data.error);
+    }
+    commit('setBasket', data.basket);
   }
 }

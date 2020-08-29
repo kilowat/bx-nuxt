@@ -12,7 +12,7 @@
       </div>
     <div>Цена:{{ item.PRICE }}</div>
     <div>
-      <ToBasketBtn :id="buyId"/>
+      <ToBasketBtn :item="item"/>
     </div>
   </div>
 </template>
@@ -25,15 +25,6 @@ export default {
     ToBasketBtn
   },
   computed:{
-    buyId() {
-      let id = this.item.ID;
-      
-      if (this.item.OFFERS && this.item.OFFERS.length > 0) {
-        id = this.item.OFFERS[0].ID;
-      }
-      
-      return id;
-    }
   }
 }
 </script>

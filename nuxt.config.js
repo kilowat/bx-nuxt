@@ -35,6 +35,7 @@ module.exports = {
   plugins: [
     '~/plugins/utils.js',
     '~/plugins/global.client.js',
+    '~/plugins/global.js',
     '~/plugins/vue-lazy-load.js',
     '~/plugins/swiper.js',
   ],

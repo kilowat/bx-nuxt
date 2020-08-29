@@ -1,22 +1,18 @@
 <template>
   <div class="content page-content">
     <Breadcrumbs :crumbsItems="crumbsItems"/>
-    <h1>Корзина</h1>
-    <Basket />
-    <Coupon />
+    <h1>{{ pageName }}</h1>
+    <AuthForm />
   </div>
 
 </template>
 
 <script>
-
-import Basket from '~/components/basket/Basket.vue';
-import Coupon from '~/components/basket/Coupon.vue';
-
+import AuthForm from '~/components/auth/AuthForm.vue';
 export default {
   head () {
     return {
-      title: 'Корзина заказа',
+      title: this.pageName,
     }
   },
   data() {
@@ -24,14 +20,16 @@ export default {
     }
   },
   components: {
-    Basket,
-    Coupon
+    AuthForm
   },
   computed: {
+    pageName() {
+      return "Авторизация";
+    },
     crumbsItems() {
       return [
         {
-          title: 'Корзина',
+          title: this.pageName,
           link: '',
         }
       ]

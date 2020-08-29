@@ -31,11 +31,9 @@
 
 import CatalogFilter from '~/components/catalog/CatalogFilter.vue';
 import SideBar from '~/components/SideBar.vue';
-import Paginate from '~/components/Pagenation.vue';
 import SortPanel from '~/components/SortPanel.vue';
-import Breadcrumbs from '~/components/Breadcrumbs.vue';
 import CatalogItem from '~/components/catalog/CatalogItem.vue';
-import Loading from '~/components/Loading.vue';
+
 
 export default {
   async asyncData({ app, params, route, error }){
@@ -56,11 +54,8 @@ export default {
   components: {
     CatalogFilter,
     SideBar,
-    Paginate,
     SortPanel,
-    Breadcrumbs,
     CatalogItem,
-    Loading
   },
   mounted() {
 

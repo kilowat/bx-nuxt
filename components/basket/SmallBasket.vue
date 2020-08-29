@@ -11,7 +11,6 @@
 export default {
   computed: {
     basket() {
-      console.log(this.$store.getters['basket/getBasket']);
       return this.$store.getters['basket/getBasket'];
     }
   },

@@ -1,7 +1,8 @@
 import Vue from 'vue'
-import Loading from '~/components/Loading.vue';
 import VueScrollTo from 'vue-scrollto';
-export default async (context, inject) => {
-  Vue.use(Loading)
-  Vue.use(VueScrollTo)
-}
+import vSelect from "vue-select";
+import 'vue-select/dist/vue-select.css';
+
+Vue.component('v-select', vSelect);
+
+Vue.use(VueScrollTo)

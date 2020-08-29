@@ -20,8 +20,6 @@
   </div>
 </template>
 <script>
-import Breadcrumbs from '~/components/Breadcrumbs.vue';
-import Paginate from '~/components/Pagenation.vue';
 
 export default {
   async asyncData({ app, params, $axios, route, error }) {
@@ -51,8 +49,6 @@ export default {
     }
   },
   components: {
-    Breadcrumbs,
-    Paginate
   },
   methods: {
     updatePage(queryParams) {
