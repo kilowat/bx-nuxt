@@ -1,8 +1,14 @@
 <template>
   <div class="content page-content">
     <Breadcrumbs :crumbsItems="crumbsItems"/>
-    <h1>{{ pageName }}</h1>
-    <AuthForm />
+    <div class="auth" v-if="!user.isAuthorized">
+      <h1>{{ pageName }}</h1>
+      <AuthForm  />
+    </div>
+    <div v-else class="auth">
+      <h1>Вы авторизованы</h1>
+      <nuxt-link to="/">Перейти на главную</nuxt-link>
+    </div>
   </div>
 
 </template>
@@ -25,6 +31,9 @@ export default {
   computed: {
     pageName() {
       return "Авторизация";
+    },
+    user() {
+      return this.$store.getters['user/getUser'];
     },
     crumbsItems() {
       return [

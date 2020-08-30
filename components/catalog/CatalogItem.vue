@@ -4,10 +4,7 @@
     <div><nuxt-link :title="item.NAME" :to="{ name: 'product-id', params: { id: item.ID } }">{{ item.NAME }}</nuxt-link></div>
     <div>
       <nuxt-link :title="item.NAME" :to="{ name: 'product-id', params: { id: item.ID } }">
-        <img
-          v-if="item.RESIZE_PREVIEW_PICTURE != undefined"
-          :width="item.RESIZE_PREVIEW_PICTURE.small.width" :height="item.RESIZE_PREVIEW_PICTURE.small.height" 
-          v-lazy="item.RESIZE_PREVIEW_PICTURE.small.src" alt="">
+        <span class="item-img" role="img" v-lazy:background-image="item.RESIZE_PREVIEW_PICTURE.small.src"></span>
       </nuxt-link>
       </div>
     <div>Цена:{{ item.PRICE }}</div>
@@ -29,5 +26,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.catalog-item{
+  @include col();
+  @include size(4);
+  @include size-md(5);
+  @include size-xs(10);
+  
+  .item-img{
+    width: 100%;
+    height: 200px;
+    background-position: center;
+    background-size: contain;
+    display: block;
+    background-repeat: no-repeat;
+  }
+}
 </style>

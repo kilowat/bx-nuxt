@@ -43,6 +43,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .page-enter-active,
 .page-leave-active,
 .layout-enter-active, 
@@ -56,8 +57,10 @@ export default {
 .layout-leave-active {
   opacity: 0
 }
+
 .container{
-  @include globalContainer();
+  width: 100%;
+  @include wrapper();
 }
 html{
   font-size: $font-size;
@@ -92,4 +95,5 @@ main{
 .content{
   flex-grow: 1;
 }
+
 </style>

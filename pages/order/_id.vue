@@ -1,5 +1,5 @@
 <template>
-  <div class="content page-content">
+  <div class="content page-content" v-if="!error">
     <Breadcrumbs :crumbsItems="crumbsItems"/>
     <h1>{{ pageName }}</h1>
     <div class="order">
@@ -18,16 +18,21 @@
       </div>
     </div>
   </div>
-
+  <div class="order error" v-else>
+    <Breadcrumbs :crumbsItems="crumbsItems"/>
+    <h1>Заказ не найден или произошла ошибка</h1>
+  </div>
 </template>
 
 <script>
 
 export default {
-    data() {
+  middleware: 'authenticated',
+  data() {
     return {
       loading: true,
       order: null,
+      error: false,
     }
   },
   head () {
@@ -65,8 +70,8 @@ export default {
         this.loading = true;
         let { data } =  await this.$axios.get(this.$api(`order/id/${this.id}`));
         this.order = data;
-      } catch(e) {
-        console.log(e);
+      } catch(err) {
+        this.error = true;
       } finally {
         this.loading = false;
       }

@@ -3,7 +3,6 @@
     <Breadcrumbs :crumbsItems="crumbsItems"/>
     <h1>Корзина</h1>
     <Basket />
-    <Coupon />
   </div>
 
 </template>
@@ -11,7 +10,6 @@
 <script>
 
 import Basket from '~/components/basket/Basket.vue';
-import Coupon from '~/components/basket/Coupon.vue';
 
 export default {
   head () {
@@ -25,7 +23,6 @@ export default {
   },
   components: {
     Basket,
-    Coupon
   },
   computed: {
     crumbsItems() {
@@ -40,6 +37,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

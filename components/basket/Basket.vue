@@ -21,12 +21,14 @@
   </div>
   <div class="basket-sum">Всего цена: {{ basket.PRICE_WITHOUT_DISCOUNT }}</div>
   <div class="basket-sum">Всего со скидкой: {{ basket.PRICE }}</div>
+  <Coupon/>
+  <nuxt-link to="/order">Оформить</nuxt-link>
 </div>
 
 </template>
 <script>
 
-
+import Coupon from '~/components/basket/Coupon.vue';
 export default {
   data(){
     return {
@@ -39,7 +41,7 @@ export default {
     }
   },
   components: {
-
+    Coupon
   },
   methods: {
     clear() {

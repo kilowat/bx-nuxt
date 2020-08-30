@@ -244,8 +244,9 @@ export default {
         if ( data.order.ID == undefined && Object.keys(data.order.ORDER_ERROR).length > 0) {
           console.log(data.order.ORDER_ERROR);
         } else {
-          console.log("Order created! " + data.ID);
-          this.$route.push(`/order/${data.ID}`);
+          console.log("Order created! " + data.order.ID);
+          this.$store.commit('basket/setBasket', {});
+          this.$router.push(`/order/${data.order.ID}`);
         }
       } catch(e) {
         console.log(e);

@@ -1,5 +1,5 @@
 export const state = () => ({
-  basket: []
+  basket: {}
 })
 
 export const getters = {

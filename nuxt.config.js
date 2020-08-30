@@ -68,6 +68,7 @@ module.exports = {
     scss: [
       '~/assets/scss/global-variables.scss',
       'breakpoint-sass/stylesheets/_breakpoint.scss',
+      '~/assets/scss/smart-grid.scss',
 
     ], // alternative: scss
     less: [],

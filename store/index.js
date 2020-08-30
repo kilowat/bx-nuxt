@@ -5,6 +5,7 @@ export const actions = {
       context.dispatch('pages/fetchAll'),
       context.dispatch('site/fetchInfo'),
       context.dispatch('basket/getData'),
+      context.dispatch('user/fetchUser'),
     ]);
   }
 }

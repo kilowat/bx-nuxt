@@ -11,16 +11,14 @@
       <h1>{{ page.section.NAME }}</h1>
       <div class="catalog">
         <Loading :active="loading" :fade="true"/>
-        <div class="catalog-items">
-          <CatalogItem  v-for="item in page.items" :key="item.ID" :item="item"/>
-        </div>
+        <CatalogList :items="page.items"/>
         <paginate
           :navId="page.nav.id"
           :click-handler="setPage"
           :page-count="page.nav.totalPage"
           :page-range="page.nav.pageSize"
-          :prev-text="'Prev'"
-          :next-text="'Next'"
+          :prev-text="'Назад'"
+          :next-text="'Вперед'"
           :container-class="'pagenation'">
         </paginate>
       </div>
@@ -32,7 +30,7 @@
 import CatalogFilter from '~/components/catalog/CatalogFilter.vue';
 import SideBar from '~/components/SideBar.vue';
 import SortPanel from '~/components/SortPanel.vue';
-import CatalogItem from '~/components/catalog/CatalogItem.vue';
+import CatalogList from '~/components/catalog/CatalogList.vue';
 
 
 export default {
@@ -55,7 +53,7 @@ export default {
     CatalogFilter,
     SideBar,
     SortPanel,
-    CatalogItem,
+    CatalogList,
   },
   mounted() {
 
