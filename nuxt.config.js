@@ -57,6 +57,7 @@ module.exports = {
   routerModule: {
     keepDefaultRouter: true,
   },
+  /*
   webfontloader: {
     events: false,
     google: {
@@ -64,6 +65,7 @@ module.exports = {
     },
     timeout: 5000
   },
+  */
   styleResources: {
     scss: [
       '~/assets/scss/global-variables.scss',

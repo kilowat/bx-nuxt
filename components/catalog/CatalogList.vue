@@ -17,5 +17,11 @@ export default {
   .catalog-items{
     @include row-flex();
     @include md(justify-content, center);
+    .catalog-item{
+      @include col();
+      @include size(4);
+      @include size-md(5);
+      @include size-xs(10);
+    }
 }
 </style>

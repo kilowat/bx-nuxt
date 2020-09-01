@@ -1,7 +1,7 @@
 <template>
   <div class="content page-content">
     <Breadcrumbs :crumbsItems="crumbsItems"/>
-    <div class="auth" v-if="!user.isAuthorized">
+    <div class="auth-component" v-if="!user.isAuthorized">
       <h1>{{ pageName }}</h1>
       <AuthForm  />
     </div>
@@ -47,6 +47,9 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+  .auth-component{
+    margin: auto;
+    width: 320px;
+  }
 </style>

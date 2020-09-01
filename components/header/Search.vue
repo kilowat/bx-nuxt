@@ -1,40 +1,101 @@
 <template>
   <div class="search-block">
+    <Loading :active="loading" fade="true" wrapper=".search-result .items"/>
     <div class="search-form top-search">
-      <form action="/search/index.php">
-        <input type="text" class="search-input" placeholder="Введите поисковой запрос" name="q" value="" size="15" maxlength="200">
-        <button type="submit" class="search-btn" name="search"><i class="ic-top-search"></i></button>
-      </form>
+      <div class="search-input">
+        <input 
+          autocomplete="false"
+          type="text" 
+          @keyup="update" 
+          v-model="query" 
+          class="search-input" 
+          placeholder="Введите поисковой запрос" 
+          size="15"
+          maxlength="200">
+      </div>
+      <div class="search-result" v-show="!empty && query.length > 0">
+        <div class="items">
+          <div class="item" v-for="item in items" :key="item.ID">
+            <nuxt-link :to="{ name: 'product-id', params: { id: item.ID } }">
+              <div class="item-wrapper">
+                <div class="pic-cell">
+                  <span class="item-img" role="img" v-lazy:background-image="item.RESIZE_PREVIEW_PICTURE.small.src"></span>
+                </div>
+                <div class="item-content">
+                  <div class="item-name">{{ item.NAME }}</div>
+                  <div class="item-price">Цена: {{ item.PRICE }}</div>
+                </div>
+              </div>
+            </nuxt-link>
+          </div>
+        </div>
+      </div>
+      <div class="search-result" v-show="empty && query.length > 0">
+        <div class="items message-empty">Не найдено</div>
+     </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  
+  data(){
+    return {
+      t: null,
+      delay: 200,
+      items: [],
+      query: "",
+      empty: false,
+      loading: false,
+    }
+  },
+  methods: {
+    update (){
+      clearTimeout(this.t);
+      this.t = setTimeout(this.search, this.delay);
+    },
+    async search() {
+      this.loading = true;
+      let { data } = await this.$axios.post(this.$api('catalog-search'), { query: this.query});
+      if (!data) {
+        this.items = [];
+        this.empty = true;
+      } else {
+        this.empty = false;
+        this.items = data;
+      }
+      this.loading = false;
+    }
+  }
 }
 </script>
 <style scoped lang="scss">
-.top-search {
-    position: relative;
+.search-result{
+  position: relative;
 }
-.top-search .search-input {
-    font-weight: 600;
-    color: #555555;
-    font-size: 13px;
-    width: 100%;
-    height: 40px;
-    padding: 10px 5px 10px 28px;
-    margin: 0px;
-    box-sizing: border-box;
-    border: none;
-    background-color: #eeeeee;
-    border-radius: 50px;
+.items {
+  background-color: #fff;
+  z-index: 100;
+  width: 420px;
+  box-shadow: 1px 3px 4px 1px rgba(0,0,0,0.3);
+  position: absolute;
+  .item {
+    padding: 0.3em;
+    border-bottom: 1px solid #ccc;
+    .item-wrapper{
+      display: flex;
+    }
+    .pic-cell{
+      margin-right: 10px;
+    }
+    .item-img{
+      display: block;
+      width: 100px;
+      height: 80px;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+  }
 }
-.top-search .search-btn {
-    position: absolute;
-    background-color: transparent;
-    border: none;
-    right: 1px;
-    top: 9px;
-}
+
 </style>

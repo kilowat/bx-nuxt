@@ -4,14 +4,14 @@
     <swiper ref="productSwiper" :options="swiperOption">
       <swiper-slide  v-for="item in items" :key="item.ID">
         <div class="slide-item">
-          <img :src="item.RESIZE_PREVIEW_PICTURE.small.src" alt="">
-          <div>{{ item.NAME }}</div>
+          <CatalogItem :item="item"/>
         </div>
       </swiper-slide>
     </swiper>
   </div>
 </template>
 <script>
+import CatalogItem from '~/components/catalog/CatalogItem.vue';
 export default {
   props: ['items'],
   data() {
@@ -23,6 +23,9 @@ export default {
   },
   mounted() {
    
+  },
+  components: {
+    CatalogItem
   },
   methods:{
 
@@ -36,8 +39,6 @@ export default {
   }
   .slide-item{
     text-align: center;
-    border: 1px solid #ccc;
-    height: 280px;
     margin-left: 5px;
     margin-right: 5px;
     img{

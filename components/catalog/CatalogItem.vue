@@ -26,12 +26,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.catalog-item{
-  @include col();
-  @include size(4);
-  @include size-md(5);
-  @include size-xs(10);
-  
+.catalog-item{  
   .item-img{
     width: 100%;
     height: 200px;

@@ -7,7 +7,7 @@
         <img :src="item.PICTURE" alt="">
       </div>
       <div class="item-name">
-        <nuxt-link :to="{ name:'product', params: { id: item.PRODUCT_ID } }">{{ item.NAME }}</nuxt-link>
+        <nuxt-link :to="{ name:'product-id', params: { id: item.PRODUCT_ID } }">{{ item.NAME }}</nuxt-link>
       </div>
       <div class="quantity-row">
         {{ item.QUANTITY }} x {{ item.PRICE }}  {{ item.POSITION_PRICE }}
@@ -19,16 +19,12 @@
       </div>
     </div>
   </div>
-  <div class="basket-sum">Всего цена: {{ basket.PRICE_WITHOUT_DISCOUNT }}</div>
-  <div class="basket-sum">Всего со скидкой: {{ basket.PRICE }}</div>
-  <Coupon/>
-  <nuxt-link to="/order">Оформить</nuxt-link>
 </div>
 
 </template>
 <script>
 
-import Coupon from '~/components/basket/Coupon.vue';
+
 export default {
   data(){
     return {
@@ -41,7 +37,7 @@ export default {
     }
   },
   components: {
-    Coupon
+ 
   },
   methods: {
     clear() {
@@ -55,10 +51,18 @@ export default {
         id: id,
         QUANTITY: qty,
       };
-      
-      this.loading = true;
-      await this.$store.dispatch('basket/update', params)
-      this.loading = false;
+      try {
+        this.loading = true;
+        await this.$store.dispatch('basket/update', params)
+
+        this.$emit("on-after-update");
+      } catch(err) {
+        //err.response.status,
+       // err.response.statusText
+        console.log(err);
+      } finally {
+        this.loading = false;
+      }
     }
   }
 }

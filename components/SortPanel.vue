@@ -2,8 +2,8 @@
   <div class="sort-panel">
     <div class="sort-item" v-for="item in sortData" :key="item.id">
       <label>{{ item.name }}</label>
-      <input type="radio" v-model="order" name="order" @change="sort" :value="item.param+'_asc'">asc
-      <input type="radio" v-model="order" name="order" @change="sort" :value="item.param+'_desc'">desc
+      <input type="radio" v-model="order" name="order" @change="sort" :value="item.radio_values.asc">asc
+      <input type="radio" v-model="order" name="order" @change="sort" :value="item.radio_values.desc">desc
     </div>
   </div>
 </template>

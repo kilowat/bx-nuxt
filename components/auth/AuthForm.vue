@@ -18,7 +18,7 @@
     </div>
     </div>
     <div class="input-row button-row">
-      <button @click="login">Login</button>
+      <button @click="login">Вход</button>
     </div>
   </div>
 </template>
@@ -49,3 +49,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .input-row{
+    margin-bottom: 1em;
+  }
+</style>

@@ -7,20 +7,34 @@
 <script>
 import Spiner from '~~/assets/svg/spiner.svg';
 export default {
-  props: ['active', 'fade'],
+  props: ['active', 'fade', 'wrapper'],
   watch:{
     active(val) {
-      if (this.fade && this.$refs.item.parentNode != undefined && val) {
-        this.$refs.item.parentNode.classList.add("fade");
-      } else if(this.$refs.item.parentNode != undefined && !val) {
-        this.$refs.item.parentNode.classList.remove("fade");
+      let wrapper;
+      if (this.wrapper !=undefined ){
+        wrapper = document.querySelector(this.wrapper);
+       
+      } else if (this.$refs.item != undefined) {
+        wrapper = this.$refs.item.parentNode;
+      }
+
+      if (this.fade && wrapper != undefined && val) {
+        wrapper.classList.add("fade");
+      } else if(wrapper != undefined && !val) {
+        wrapper.classList.remove("fade");
       }
     }
   },
   mounted() {
-    this.$nextTick( ()=> {
-      if( this.fade && this.$refs.item.parentNode != undefined && this.active) {
-        this.$refs.item.parentNode.classList.add("fade");
+    this.$nextTick( () => {
+      let wrapper;
+      if (this.wrapper !=undefined ){
+        wrapper = document.querySelector(this.wrapper);
+      } else if (this.$refs.item != undefined) {
+        wrapper = this.$refs.item.parentNode;
+      }
+      if( this.fade && wrapper != undefined && this.active) {
+        wrapper.classList.add("fade");
       }
     });
   },
@@ -31,7 +45,7 @@ export default {
 </script>
 <style lang="scss">
 .loader-icon {
-  position: absolute;
+  position: fixed;
   width: 64px;
   height: 64px;
   left: calc(50% - 32px);
@@ -41,7 +55,17 @@ export default {
   }
 }
 .fade{
-  opacity: 0.3;
-  transition: all 0.2s;
+  position: relative;
+  &:before{
+    background-color: #fff;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    opacity: 0.6;
+    content: "";
+    display: block;
+    transition: all 0.2s;
+  }
 }
 </style>
