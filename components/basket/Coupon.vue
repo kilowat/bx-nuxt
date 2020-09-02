@@ -2,7 +2,7 @@
   <div class="coupon-insert">
     <Loading :active="loading"/>
     <div class="coupon-input">
-      <input type="text" v-model="coupon" placeholder="Введите купон">
+      <input type="text" class="text-input" v-model="coupon" placeholder="Введите купон">
     </div>
     <div class="">
       <button @click="set">Применить</button>

@@ -14,7 +14,7 @@
       </div>
       <div class="input-row">
         <button :disabled="loading" @click="setQty(item, item.QUANTITY - 1)">-</button>
-        <input :disabled="loading" :value="item.QUANTITY" @change="setQty(item, $event.target.value)">
+        <input :disabled="loading" class="text-input" :value="item.QUANTITY" @change="setQty(item, $event.target.value)">
         <button :disabled="loading"  @click="setQty(item, item.QUANTITY + 1)">+</button>
       </div>
     </div>

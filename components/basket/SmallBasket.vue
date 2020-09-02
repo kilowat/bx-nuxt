@@ -1,9 +1,10 @@
 <template>
 <div>
-  <div v-if="basket!=undefined && basket.COUNT > 0">
+  <div v-if="basket.COUNT > 0">
     <nuxt-link :to="{ name: 'basket' }">В корзину</nuxt-link>
     Кол-во: {{ basket.COUNT }} на {{ basket.PRICE }}
   </div>
+  <div v-else>В корзине 0</div>
 </div>
 
 </template>

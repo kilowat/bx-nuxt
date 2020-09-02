@@ -38,6 +38,8 @@ module.exports = {
     '~/plugins/global.js',
     '~/plugins/vue-lazy-load.js',
     '~/plugins/swiper.js',
+    { src: '~/plugins/notify.server.js', mode: 'server' },
+    { src: '~/plugins/notify.client.js', mode: 'client' }
   ],
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
@@ -57,7 +59,7 @@ module.exports = {
   routerModule: {
     keepDefaultRouter: true,
   },
-  /*
+  
   webfontloader: {
     events: false,
     google: {
@@ -65,13 +67,13 @@ module.exports = {
     },
     timeout: 5000
   },
-  */
+  
   styleResources: {
     scss: [
       '~/assets/scss/global-variables.scss',
       'breakpoint-sass/stylesheets/_breakpoint.scss',
       '~/assets/scss/smart-grid.scss',
-
+      '~/assets/scss/notify.scss',
     ], // alternative: scss
     less: [],
     stylus: []

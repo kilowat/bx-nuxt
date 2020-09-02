@@ -1,38 +1,38 @@
 <template>
-  <div class="search-block">
+  <div class="search-form top-search">
     <Loading :active="loading" fade="true" wrapper=".search-result .items"/>
-    <div class="search-form top-search">
-      <div class="search-input">
-        <input 
-          autocomplete="false"
-          type="text" 
-          @keyup="update" 
-          v-model="query" 
-          class="search-input" 
-          placeholder="Введите поисковой запрос" 
-          size="15"
-          maxlength="200">
-      </div>
-      <div class="search-result" v-show="!empty && query.length > 0">
-        <div class="items">
-          <div class="item" v-for="item in items" :key="item.ID">
-            <nuxt-link :to="{ name: 'product-id', params: { id: item.ID } }">
-              <div class="item-wrapper">
-                <div class="pic-cell">
-                  <span class="item-img" role="img" v-lazy:background-image="item.RESIZE_PREVIEW_PICTURE.small.src"></span>
-                </div>
-                <div class="item-content">
-                  <div class="item-name">{{ item.NAME }}</div>
-                  <div class="item-price">Цена: {{ item.PRICE }}</div>
-                </div>
+    <div class="search-input">
+      <input 
+        autocomplete="false"
+        type="text" 
+        @keyup="update" 
+        v-model="query" 
+        class="search-input text-input" 
+        placeholder="Введите поисковой запрос" 
+        size="15"
+        @keyup.enter="gotToSearch()"
+        maxlength="200">
+        <button class="search-btn" @click="gotToSearch">Искать</button>
+    </div>
+    <div class="search-result" v-show="!empty && query.length > 0">
+      <div class="items">
+        <div class="item" v-for="item in items" :key="item.ID">
+          <nuxt-link :to="{ name: 'product-id', params: { id: item.ID } }">
+            <div class="item-wrapper">
+              <div class="pic-cell">
+                <span class="item-img" role="img" v-lazy:background-image="item.RESIZE_PREVIEW_PICTURE.small.src"></span>
               </div>
-            </nuxt-link>
-          </div>
+              <div class="item-content">
+                <div class="item-name">{{ item.NAME }}</div>
+                <div class="item-price">Цена: {{ item.PRICE }}</div>
+              </div>
+            </div>
+          </nuxt-link>
         </div>
       </div>
-      <div class="search-result" v-show="empty && query.length > 0">
-        <div class="items message-empty">Не найдено</div>
-     </div>
+    </div>
+    <div class="search-result" v-show="empty && query.length > 0">
+      <div class="items message-empty">Не найдено</div>
     </div>
   </div>
 </template>
@@ -64,6 +64,9 @@ export default {
         this.items = data;
       }
       this.loading = false;
+    },
+    gotToSearch() {
+      this.$router.push('/catalog-search?query=' + this.query);
     }
   }
 }
@@ -72,15 +75,29 @@ export default {
 .search-result{
   position: relative;
 }
+.search-input {
+  display: flex;
+}
+.search-btn {
+  height: 40px;
+  border: 1px solid #ccc;
+}
 .items {
   background-color: #fff;
   z-index: 100;
-  width: 420px;
+  width: 456px;
   box-shadow: 1px 3px 4px 1px rgba(0,0,0,0.3);
   position: absolute;
   .item {
     padding: 0.3em;
     border-bottom: 1px solid #ccc;
+    a{
+      text-decoration: none;
+      color: #000;
+      &:hover{
+        color: $color-link-hover;
+      }
+    }
     .item-wrapper{
       display: flex;
     }

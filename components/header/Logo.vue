@@ -12,5 +12,8 @@ export default {
 <style lang="scss" scoped>
   .logo{
     height: 120px;
+    img{
+      max-width: 100%;
+    }
   }
 </style>

@@ -3,6 +3,7 @@
     <HeaderBlock />
     <main class="container">
       <nuxt />
+      <notifications group="auth" position="center center"/>
     </main>
     <FooterBlock />
   </div>

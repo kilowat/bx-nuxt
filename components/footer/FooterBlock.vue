@@ -20,7 +20,15 @@ export default {
 </script>
 <style lang="scss" scoped>
   .footer{
-    height: 150px;
-    background-color: #ccc;
+    height: 100px;
+    background-color: #f8f8f8;
+    .menu-block ul{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li{
+        margin-bottom: 10px;
+      }
+    }
   }
 </style>
