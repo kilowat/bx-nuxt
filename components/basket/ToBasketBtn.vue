@@ -1,18 +1,18 @@
 <template>
-  <div>
-    <div v-if="!inBasket && item.AVAILABLE == 'Y'">
-      <button @click="add">add</button>
-      <input type="text" v-model="quantity">
+  <div class="add-to-basket">
+    <div v-if="!inBasket && item.AVAILABLE == 'Y'" class="add-to-basket-input">
+      <div v-if="count" class="input-cell"><input type="text" class="text-input" v-model="quantity"></div>
+      <div class="button-cell"><button class="btn btn-primary" @click="add">В корзину</button></div>
     </div>
-    <div v-else-if="inBasket">
-      <button >Добавлен</button>
+    <div v-else-if="inBasket" class="button-cell in-basket">
+      <nuxt-link to="/order" class="btn btn-grey">Добавлен</nuxt-link>
     </div>
-    <div v-else>Не доступен</div>
+    <div v-else class="not-avaiable">Не доступен</div>
   </div>
 </template>
 <script>
 export default {
-  props: ['item'],
+  props: ['item', 'count'],
   data() {
     return {
       quantity: 1,
@@ -53,9 +53,9 @@ export default {
         
         if (basket != undefined && basket.ITEMS != undefined) {
           for (let i in basket.ITEMS) {
-            if (basket.ITEMS[i].PRODUCT_ID == this.id) {
+            if (basket.ITEMS[i].PRODUCT_ID === this.id) {
               let addedProduct = basket.ITEMS[i];
-              $nuxt.$emit('product-added-to-basket');
+              this.$nuxt.$emit(this.$eventMap.onProductAddedToBasket, addedProduct);
               break;
             }
           }
@@ -67,3 +67,18 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.add-to-basket{
+  .input-cell{
+    margin-bottom: 10px;
+    input{
+      text-align: center;
+    }
+  }
+  .button-cell{
+    width: 180px;
+    margin: auto;
+  }
+}
+
+</style>

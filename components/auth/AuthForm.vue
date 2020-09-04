@@ -1,29 +1,5 @@
 <template>
   <div class="auth">
-    <notifications group="buyed" width="420" position="top center"> 
-      <template slot="body" slot-scope="props">
-        <div class="box-msg">
-          <a class="close" @click="props.close"></a>
-          <div class="box-header">Товар добавлен в корзину</div>
-          <div class="box-body">
-            <div class="product-wrapper">
-              <div class="pic-cell" v-if="props.item.data.PICTURE != undefined">
-                <span class="pic" role="img" :style="{ backgroundImage: `url('${props.item.data.PICTURE}')` }" ></span>
-              </div>
-              <div class="product-content">
-                <span class="name">{{ props.item.data.NAME }}</span>
-                <span class="quantity">{{ props.item.data.QUANTITY }} шт</span>  
-              </div>
-            </div>
-          </div>
-          <div class="box-footer">
-            <button class="btn btn-primary">Перейти в корзину</button>
-            <button class="btn btn-secondary">Продолжить покупки</button>
-          </div>
-        </div>
-      </template>
-    </notifications>
-    <button @click="test">test</button>
     <Loading :active="loading"/>
     <div class="input-row">
       <input type="text" class="text-input" v-model="authParam.login" placeholder="Логин">
@@ -44,6 +20,7 @@
     <div class="input-row button-row">
       <button @click="login" class="btn btn-primary">Вход</button>
     </div>
+    <notifications group="auth" position="center center"/>
   </div>
 </template>
 <script>
@@ -85,30 +62,11 @@ export default {
       } else {
         msg = "Произошла ошбика";
       }
-      this.$notify({
-        group: 'auth',
-        type: 'error',
-        title: 'Авторизация',
-        text: msg
-      });
+      this.$nuxt.$emit(this.$eventMap.onUserErrorLogin, msg);
     },
     showOk() {
-      this.$notify({
-        group: 'auth',
-        type: 'success',
-        title: 'Авторизация',
-        text: "Вы успешно авторизованы"
-      });
+      this.$nuxt.$emit(this.$eventMap.onUserLogin);
     },
-    test() {
-      this.$notify({
-        group: 'buyed',
-        type: 'box',
-        title: 'Покупка',
-        duration: 100000,
-        data: this.$store.getters['basket/getBasket'].ITEMS[0]
-      });
-    }
   }
 }
 </script>

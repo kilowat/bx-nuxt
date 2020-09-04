@@ -38,6 +38,7 @@ module.exports = {
     '~/plugins/global.js',
     '~/plugins/vue-lazy-load.js',
     '~/plugins/swiper.js',
+    '~/plugins/events.js',
     { src: '~/plugins/notify.server.js', mode: 'server' },
     { src: '~/plugins/notify.client.js', mode: 'client' }
   ],
@@ -73,7 +74,6 @@ module.exports = {
       '~/assets/scss/global-variables.scss',
       'breakpoint-sass/stylesheets/_breakpoint.scss',
       '~/assets/scss/smart-grid.scss',
-      '~/assets/scss/notify.scss',
     ], // alternative: scss
     less: [],
     stylus: []

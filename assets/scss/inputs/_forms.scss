@@ -1,0 +1,18 @@
+.form-control{
+  &.invalid{
+    .text-input{
+      box-shadow: 0px 0px 2px 1px rgba(250,10,10,0.5);
+      border-color: rgba(250,10,10,0.5);
+    }
+    .vs__dropdown-toggle{
+      border-color: rgba(250,10,10,0.5);
+      box-shadow: 0px 0px 2px 1px rgba(250,10,10,0.5);
+    }
+  }
+  .error-msg{
+    height: 18px;
+    font-size: 14px;
+    color: red;
+    margin-left: 4px;
+  }
+}

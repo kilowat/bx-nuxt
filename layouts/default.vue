@@ -2,8 +2,8 @@
   <div class="page">
     <HeaderBlock />
     <main class="container">
-      <nuxt />
-      <notifications group="auth" position="center center"/>
+      <nuxt /> 
+      <Notice /> 
     </main>
     <FooterBlock />
   </div>
@@ -12,6 +12,8 @@
 <script>
 import HeaderBlock from '~/components/header/HeaderBlock.vue';
 import FooterBlock from '~/components/footer/FooterBlock.vue';
+import Notice from '~/components/Notice.vue';
+
 export default {
   computed: {
     meta() {
@@ -38,7 +40,8 @@ export default {
   },
   components: {
     HeaderBlock,
-    FooterBlock
+    FooterBlock,
+    Notice
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="content page-content">
+    <notifications group="order" position="top center"/>
     <Breadcrumbs :crumbsItems="crumbsItems"/>
     <h1>Оформить заказ</h1>
     <div class="order-wrapper">
@@ -18,13 +19,14 @@
           <div class="order-section person-types">
             <div class="section-name">Тип платильщик</div>
             <div class="person-list">
-              <div class="person-item" v-for="item in order.PERSON_TYPES" :key="item.ID">
+              <div class="person-item" 
+                v-for="item in order.PERSON_TYPES" :key="item.ID">
                 <input 
                   :id="`person-${item.ID}`" 
                   type="radio" name="person-type" 
                   :value="item.ID"
                   @change="setOrderData"
-                    v-model="personType">
+                  v-model="personType">
                 <label :for="`person-${item.ID}`">{{ item.NAME }}</label>
               </div>
             </div>
@@ -35,19 +37,23 @@
           <div class="order-section city">
             <div class="section-name">Город</div>
             <div class="city-select">
-              <v-select
-                label="NAME"
-                :value="currentCityName"
-                :clearable="false"
-                :options="cityList"
-                @input="setLocation"
-                @search="onSearchCity"
-                placeholder="Выверите ваш город">
-                <template #no-options="{ search, searching, loading }">
-                    <span v-if="search.lenght > 0">{{ search }} не найден</span>
-                    <span v-else>Введите город</span>
-                </template>
-              </v-select>
+              <div class="form-control"
+                :class="{ invalid : validFields.LOCATION != undefined }">
+                <v-select
+                  label="NAME"
+                  :value="currentCityName"
+                  :clearable="false"
+                  :options="cityList"
+                  @input="setLocation"
+                  @search="onSearchCity"
+                  placeholder="Выверите ваш город">
+                  <template #no-options="{ search, searching, loading }">
+                      <span v-if="search.lenght > 0">{{ search }} не найден</span>
+                      <span v-else>Введите город</span>
+                  </template>
+                </v-select>
+                <span class="error-msg">{{ validFields.LOCATION ? validFields.LOCATION: '' }}</span>
+              </div>
             </div>
           </div>
           <!--end city-->
@@ -57,14 +63,23 @@
             <div class="section-name">Данные покупателя</div>
             <div class="user-prop-list">
               <div class="user-prop-item" v-for="prop in this.props" :key="prop.ID">
-                <input 
-                  :type="inputType(prop)"
-                  class="input text-input"
-                  v-model="userProps[prop.CODE]"
-                  :placeholder="prop.NAME">
+                <div class="form-control"
+                  v-show="inputType(prop) !== 'hidden'"
+                  :class="[
+                    { invalid : validFields[prop.CODE] != undefined }, 
+                    { required: prop.REQUIRED == 'Y' } ]">
+                  <input 
+                    :type="inputType(prop)"
+                    class="input text-input"
+                    v-model="userProps[prop.CODE]"
+                    :placeholder="prop.NAME">
+                  <span class="error-msg">{{ validFields[prop.CODE] ? validFields[prop.CODE] : '' }}</span>
+                </div>
               </div>
               <div class="user-prop-item">
-                <textarea name="" class="text-area" id="" cols="30" rows="10" v-model="comment" placeholder="Комментарий"></textarea>
+                <div class="form-control">
+                  <textarea name="" class="text-area" id="" cols="30" rows="10" v-model="comment" placeholder="Комментарий"></textarea>
+                </div>
               </div>
             </div>
           </div>
@@ -175,7 +190,8 @@ export default {
         "EMAIL",
         "ADDRESS",
         "INDEX",
-      ]
+      ],
+      validFields:{}
     }
   },
   mounted() {
@@ -262,21 +278,23 @@ export default {
       try {
         this.loading = true;
         let { data } = await this.$axios.post(this.$api('order/save'), this.orderData);
-        if ( data.order.ID == undefined && Object.keys(data.order.ORDER_ERROR).length > 0) {
-          console.log(data.order.ORDER_ERROR);
+        if (data.order.ID == undefined && Object.keys(data.order.ORDER_ERROR).length > 0) {
+          this.handleOrderError(data);
         } else {
           console.log("Order created! " + data.order.ID);
           this.$store.commit('basket/setBasket', {});
+          await this.$store.dispatch('user/fetchUser'); //Обновить пользователя, на случай если это новый
           this.$router.push(`/order/${data.order.ID}`);
         }
       } catch(e) {
         console.log(e);
       } finally {
-          this.loading = false;
+        this.loading = false;
       }      
     },
     setLocation(val) {
       this.currentCityCode = val.CODE;
+      console.log(this.currentCityCode);
       this.setOrderData();
     },
     async onSearchCity(search, loading) {
@@ -287,6 +305,21 @@ export default {
         let {data} = await this.$axios.post(this.$api('order/getCity'), {search: search})
         this.cityList = data;
         loading(false);
+    },
+    handleOrderError(data) {
+      if (data.errors.TYPE == "field_valid") {
+        this.validFields = data.order.ORDER_ERROR;
+        let msg = data.errors.MSG;
+        if (data.order.ORDER_ERROR.DELIVERY != undefined) {
+          msg = data.order.ORDER_ERROR.DELIVERY;
+        }
+        if (data.order.ORDER_ERROR.PAYMENT != undefined) {
+          msg = data.order.ORDER_ERROR.PAYMENT;
+        }
+        this.$nuxt.$emit(this.$eventMap.onOrderInvalidFields,  { msg: msg, fields: data.order.ORDER_ERROR });
+      } else {
+        throw (data.errors.MSG);
+      }
     },
     inputType(prop) {
       if (prop.UTIL == "Y")
@@ -301,9 +334,6 @@ export default {
 </script>
 
 <style lang="scss">
-  .vs__dropdown-toggle{
-    height: 32px;
-  }
   .order{
     @include row-flex();
     .user-prop-list{

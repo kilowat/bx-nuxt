@@ -12,7 +12,7 @@
       </nuxt-link>
       </div>
     <div>Цена:{{ item.PRICE }}</div>
-    <div>
+    <div class="to-basket-row">
       <ToBasketBtn :item="item"/>
     </div>
   </div>
@@ -31,6 +31,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .catalog-item{  
+  margin-bottom: 2em;
   .item-img{
     width: 100%;
     height: 200px;
@@ -38,6 +39,9 @@ export default {
     background-size: contain;
     display: block;
     background-repeat: no-repeat;
+  }
+  .to-basket-row{
+    margin-top: 1em;
   }
 }
 </style>

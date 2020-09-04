@@ -7,10 +7,16 @@
   font-size: 16px;
   font-weight: 700;
   padding: 8px;
-  
+  box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.4);
   box-sizing: border-box;
   padding-left: 12px;
   padding-right: 12px;
+  text-decoration: none;
+  line-height: 1;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
   &.with-icon{
     display: flex;
     align-items: center;
@@ -47,6 +53,7 @@
     }
   }
   &.btn-grey{
+    color: #000;
     background-color: #f3f4f4;
     &:hover{
       background-color: darken(#f3f4f4, 10%);

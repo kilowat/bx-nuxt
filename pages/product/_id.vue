@@ -3,6 +3,11 @@
       <Breadcrumbs :crumbsItems="crumbsItems"/>
       <div class="product-detail">
         <h1>{{ page.item.NAME }}</h1>
+        <div class="product-content">
+          <div class="product-pic">
+            <img v-lazy="page.item.RESIZE_DETAIL_PICTURE.middle.src" v-if="page.item.RESIZE_DETAIL_PICTURE !=undefined"  alt="">
+          </div>
+        </div>
       </div>
     </div>
 </template>
@@ -13,8 +18,11 @@ export default {
       try{
         let { data } = await $axios.get(app.$api(`/catalog-item/${route.params.id}`));
         return { page: data }
-      }catch(e){
-        console.log(e);
+      }catch(err){
+        return error({
+          statusCode: err.response.status,
+          message: err.response.statusText
+        })
       }
   },
   data() {
@@ -33,6 +41,9 @@ export default {
         }
       ],
     }
+  },
+  mounted() {
+    console.log(this.page.item);
   },
   components: {
 

@@ -66,7 +66,7 @@
           </div> 
         </div>
         <div class="button-row">
-          <button @click="setFilter">set-filter</button>
+          <button class="btn btn-primary" @click="setFilter">Применить</button>
         </div>
       </div>
     </div>

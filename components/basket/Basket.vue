@@ -7,7 +7,7 @@
         <img :src="item.PICTURE" alt="">
       </div>
       <div class="item-name">
-        <nuxt-link :to="{ name:'product-id', params: { id: item.PRODUCT_ID } }">{{ item.NAME }}</nuxt-link>
+        <nuxt-link :to="{ name:'product-id', params: { id: item.IS_OFFER ? item.IS_OFFER: item.PRODUCT_ID } }">{{ item.NAME }}</nuxt-link>
       </div>
       <div class="quantity-row">
         {{ item.QUANTITY }} x {{ item.PRICE }}  {{ item.POSITION_PRICE }}
@@ -33,6 +33,7 @@ export default {
   },
   computed: {
     basket() {
+      console.log(this.$store.getters['basket/getBasket']);
       return this.$store.getters['basket/getBasket'];
     }
   },
@@ -67,3 +68,14 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.basket{
+  .input-row {
+    display: flex;
+    width: 60px;
+    input{
+      text-align: center;
+    }
+  }
+}
+</style>

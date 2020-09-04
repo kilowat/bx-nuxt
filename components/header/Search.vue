@@ -14,7 +14,7 @@
         maxlength="200">
         <button class="search-btn" @click="gotToSearch">Искать</button>
     </div>
-    <div class="search-result" v-show="!empty && query.length > 0">
+    <div class="search-result" v-if="!empty && query.length > 0">
       <div class="items">
         <div class="item" v-for="item in items" :key="item.ID">
           <nuxt-link :to="{ name: 'product-id', params: { id: item.ID } }">
@@ -31,7 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="search-result" v-show="empty && query.length > 0">
+    <div class="search-result" v-if="empty && query.length > 0">
       <div class="items message-empty">Не найдено</div>
     </div>
   </div>
@@ -66,7 +66,9 @@ export default {
       this.loading = false;
     },
     gotToSearch() {
-      this.$router.push('/catalog-search?query=' + this.query);
+      this.$router.push('/catalog-search?query=' + this.query, ()=>{
+        this.query = '';
+      });
     }
   }
 }
