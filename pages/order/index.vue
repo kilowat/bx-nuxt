@@ -150,12 +150,25 @@
           <!--end payment and delivery-->
         </div>
         <div class="total-block">
-          <div class="total-wrapper">
-            <div class="total-row">
-              Итого: {{ order.PRICE_ORDER }}
+          <div class="total-wrapper table">
+            <div class="row table-row">
+              <div class="table-cell">Всего товаров:</div>
+              <div class="table-cell">{{ totalCount}} шт</div>
             </div>
-            <div class="total-row">
-              <button @click="saveOrder">Оформить заказ</button>
+            <div class="table-row">
+              <div class="table-cell">Сумма:</div>
+              <div class="table-cell"><span v-html="order.PRICE_ORDER_HTML"></span></div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Скидка:</div>
+              <div class="table-cell"><span v-html="order.PRICE_DISCOUNT_HTML"></span></div>
+            </div>
+            <div class="table-row">
+              <div class="table-cell">Вес:</div>
+              <div class="table-cell"><span v-html="order.WEIGHT.HTML"></span></div>
+            </div>
+            <div class="row">
+              <button class="btn btn-primary" @click="saveOrder">Оформить заказ</button>
             </div> 
           </div>
         </div>
@@ -218,6 +231,10 @@ export default {
     },
   },
   computed: {
+    totalCount(){
+      if (this.$store.getters['basket/getBasket'].TOTAL_COUNT != undefined)
+        return this.$store.getters['basket/getBasket'].TOTAL_COUNT;
+    },
     crumbsItems() {
       return [
         {
@@ -255,7 +272,7 @@ export default {
     async getDataFromServer() {
       try {
         this.loading = true;
-        let { data } = await this.$axios.get(this.$api('order/getData'));
+        let { data } = await this.$axios.get(this.$api('order/get-data'));
         this.order = data.order;
       } catch(e) {
         console.log(e);
@@ -266,7 +283,7 @@ export default {
     async setOrderData() {
       try {
         this.loading = true;
-        let { data } = await this.$axios.post(this.$api('order/setData'), this.orderData);
+        let { data } = await this.$axios.post(this.$api('order/set-data'), this.orderData);
         this.order = data.order;
       } catch(e) {
         console.log(e);
@@ -294,7 +311,6 @@ export default {
     },
     setLocation(val) {
       this.currentCityCode = val.CODE;
-      console.log(this.currentCityCode);
       this.setOrderData();
     },
     async onSearchCity(search, loading) {
@@ -302,7 +318,7 @@ export default {
       this.searchCity(loading, search, this);
     },
     async searchCity(loading, search, vm) {
-        let {data} = await this.$axios.post(this.$api('order/getCity'), {search: search})
+        let {data} = await this.$axios.post(this.$api('order/get-city'), {search: search})
         this.cityList = data;
         loading(false);
     },
@@ -396,5 +412,14 @@ export default {
         }
       }
     }
+  }
+  .table{
+    display: table;
+  }
+  .table-row{
+    display: table-row;
+  }
+  .table-cell{
+    display: table-cell;
   }
 </style>

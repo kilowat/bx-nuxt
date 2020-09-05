@@ -33,7 +33,6 @@ export default {
   },
   computed: {
     basket() {
-      console.log(this.$store.getters['basket/getBasket']);
       return this.$store.getters['basket/getBasket'];
     }
   },
@@ -70,6 +69,10 @@ export default {
 </script>
 <style lang="scss">
 .basket{
+  .item {
+    display: flex;
+    align-items: center;
+  }
   .input-row {
     display: flex;
     width: 60px;

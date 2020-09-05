@@ -2,7 +2,7 @@
 <div>
   <div v-if="basket.COUNT > 0">
     <nuxt-link :to="{ name: 'basket' }">В корзину</nuxt-link>
-    Кол-во: {{ basket.COUNT }} на {{ basket.PRICE }}
+    Кол-во: {{ basket.COUNT }} на <span v-html="basket.HTML_PRICE"></span>
   </div>
   <div v-else>В корзине 0</div>
 </div>

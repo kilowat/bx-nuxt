@@ -22,4 +22,15 @@ export default (context, inject) => {
   }
 
   inject('makeParamRequest', makeParamRequest);
+
+  const makeCanonical = (url) => {
+    if (context.req != undefined)
+      return { rel: 'canonical', href: 'http://localhost:3000/' + url }
+    else {
+      return {};
+    }
+  }
+
+  inject('makeCanonical', makeCanonical);
 }
+

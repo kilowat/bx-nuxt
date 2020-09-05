@@ -99,7 +99,8 @@ export default {
           hid: 'description',
           name: 'description',
           content: this.page.section.NAME
-        }
+        },
+        this.$makeCanonical(this.page.section.CODE)
       ],
     }
   },

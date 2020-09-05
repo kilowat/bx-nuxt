@@ -5,7 +5,7 @@
       <input type="text" class="text-input" v-model="coupon" placeholder="Введите купон">
     </div>
     <div class="">
-      <button @click="set">Применить</button>
+      <button @click="set" class="btn btn-grey">Применить</button>
     </div>
   </div>
 </template>

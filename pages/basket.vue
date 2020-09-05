@@ -9,12 +9,12 @@
             <Basket />
           </div>
           <div class="total-block">
-            <div class="total-row">Сумма: {{ basket.PRICE }}</div> 
+            <div class="total-row">Сумма: <span v-html="basket.FORMAT_PRICE"></span></div> 
             <div class="total-row">
               <Coupon/>
             </div>
             <div class="total-row">
-              <nuxt-link to="/order">Оформить</nuxt-link>
+              <nuxt-link to="/order" class="btn btn-primary">Оформить</nuxt-link>
             </div>
           </div>
         </div>

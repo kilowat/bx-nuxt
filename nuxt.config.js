@@ -51,8 +51,27 @@ module.exports = {
     '@nuxtjs/redirect-module',
     'nuxt-trailingslash-module',
     '@nuxtjs/router',
+    //'nuxt-i18n',
     '@nuxtjs/proxy'
   ],
+  /*
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js'
+      },
+      {
+        code: 'ru',
+        file: 'ru-RU.js'
+      },
+    ],
+    defaultLocale: 'ru',
+    lazy: true,
+    langDir: 'lang/',
+    strategy: 'no_prefix',  
+  },
+  */
   redirect: [
     //{ from: '^(\\/[^\\?]*[^\\/])(\\?.*)?$', to: '$1/$2', },
     { from: '/index/', to: '/', }
