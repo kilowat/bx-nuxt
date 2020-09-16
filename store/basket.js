@@ -17,7 +17,7 @@ export const mutations = {
 export const actions = {
   async add({ commit }, params) {
     let { data } =  await this.$axios.post(this.$api(`basket/add/${params.id}`), params )
-    if (data.error != null) {
+    if (data.error) {
       throw(data.error);
     }
     commit('setBasket', data.basket);
