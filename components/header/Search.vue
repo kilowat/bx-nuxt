@@ -1,11 +1,14 @@
 <template>
-  <div class="search-form top-search">
+  <div class="search-form top-search"
+    @focusout="handleFocusOut"
+    tabindex="0">
     <Loading :active="loading" fade="true" wrapper=".search-result .items"/>
     <div class="search-input">
       <input 
         autocomplete="false"
         type="text" 
         @keyup="update" 
+        @focus="show=true"
         v-model="query" 
         class="search-input text-input" 
         placeholder="Введите поисковой запрос" 
@@ -14,10 +17,10 @@
         maxlength="200">
         <button class="search-btn" @click="gotToSearch">Искать</button>
     </div>
-    <div class="search-result" v-if="!empty && query.length > 0">
+    <div class="search-result" v-show="show"  v-if="!empty && query.length > 0">
       <div class="items">
         <div class="item" v-for="item in items" :key="item.ID">
-          <nuxt-link :to="{ name: 'product-id', params: { id: item.ID } }">
+          <nuxt-link :to="{ name: 'product-id', params: { id: item.ID } }" @click.native="show=false">
             <div class="item-wrapper">
               <div class="pic-cell">
                 <span class="item-img" role="img" v-lazy:background-image="item.RESIZE_PREVIEW_PICTURE.small.src"></span>
@@ -46,10 +49,14 @@ export default {
       query: "",
       empty: false,
       loading: false,
+      show: true,
     }
   },
+  mounted() {
+
+  },
   methods: {
-    update (){
+    update () {
       clearTimeout(this.t);
       this.t = setTimeout(this.search, this.delay);
     },
@@ -69,6 +76,9 @@ export default {
       this.$router.push('/catalog-search?query=' + this.query, ()=>{
         this.query = '';
       });
+    },
+    handleFocusOut() {
+      this.show = false;
     }
   }
 }
