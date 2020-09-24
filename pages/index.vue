@@ -6,8 +6,24 @@
         <div class="slide-loading">Загрузка</div>
       </div>
     </client-only>
-    <div class="page-text" v-html="page.DETAIL_TEXT"></div>
-    <ProductSlider :items="page.productTop"/>
+    <div class="product-top">
+      <h2 class="row-title text-center">Топ товаров</h2>
+      <ProductSlider :items="page.productTop"/>
+    </div>
+    <div class="page-text about-main">
+      <h1 class="text-center">{{ page.PROPERTIES.SECTION_NAME.VALUE }}</h1>
+      <div class="wrapper">
+        <div class="about-photo">
+          <img :src="page.RESIZE_DETAIL_PICTURE.small.src" :alt="page.NAME">
+        </div>
+        <div class="about-text">
+          <div v-html="page.DETAIL_TEXT"></div>
+          <div class="row">
+            <a href="#" class="btn btn-primary btn-inline" title="#">Подробнее</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,7 +34,8 @@ import ProductSlider from '~/components/ProductSlider.vue';
 export default {
   async asyncData({ app, params, $axios, route, error }) {
     try{
-      let { data } = await $axios.get(app.$api('/page/index'))
+      let { data } = await $axios.get(app.$api('/page/index'));
+
       return { page : data };
     }catch(err){
       return error({
@@ -63,5 +80,21 @@ export default {
     height: 450px;
     width: 100%;
     background-color: #ccc;
+  }
+  .about-main{
+    .wrapper{
+      @include row-flex();
+    }
+    .about-text{
+      @include col();
+      @include size(6);
+    }
+    .about-photo{
+      @include col();
+      @include size(6);
+      img{
+        max-width: 100%;
+      }
+    }
   }
 </style>

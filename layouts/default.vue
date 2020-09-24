@@ -70,8 +70,18 @@ html{
   font-size: $font-size;
   font-family: $font-open-sans;
   line-height: $base-line-height;
+  color: $color-text;
 }
-.ruble{
+
+@font-face {
+  font-family: 'als_rublregular';
+  font-weight: normal;
+  src: url('~assets/fonts/ruble/rouble-webfont.eot') format('eot'); /* IE9 Compat Mode */
+  src: url('~assets/fonts/ruble/rouble-webfont.woff') format('woff'),
+       url('~assets/fonts/ruble/rouble-webfont.ttf') format('ttf');
+}
+
+.ruble-symbol{
   font-family: als_rublregular;
 }
 main{
@@ -99,5 +109,26 @@ main{
 .content{
   flex-grow: 1;
 }
-
+.text-center{
+  text-align: center;
+}
+p{
+  margin-bottom: 1em;
+}
+h1, h2, h3{
+  margin-top: 1.3em;
+  margin-bottom: 1em;
+}
+h1{
+  font-size: 28px;
+  &.row-title{
+    font-size: 28px;
+  }
+}
+h2{
+  font-size: 22px;
+  &.row-title{
+    font-size: 28px;
+  }
+}
 </style>

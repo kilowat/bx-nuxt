@@ -3,7 +3,7 @@
     @focusout="handleFocusOut"
     tabindex="0">
     <Loading :active="loading" fade="true" wrapper=".search-result .items"/>
-    <div class="search-input">
+    <div class="search-input-wrapper">
       <input 
         autocomplete="false"
         type="text" 
@@ -15,7 +15,7 @@
         size="15"
         @keyup.enter="gotToSearch()"
         maxlength="200">
-        <button class="search-btn" @click="gotToSearch">Искать</button>
+        <button class="search-btn" @click="gotToSearch"><searchSvg /></button>
     </div>
     <div class="search-result" v-show="show"  v-if="!empty && query.length > 0">
       <div class="items">
@@ -40,6 +40,8 @@
   </div>
 </template>
 <script>
+import searchSvg from '~/assets/svg/search.svg';
+
 export default {
   data(){
     return {
@@ -54,6 +56,9 @@ export default {
   },
   mounted() {
 
+  },
+  components: {
+    searchSvg
   },
   methods: {
     update () {
@@ -87,12 +92,25 @@ export default {
 .search-result{
   position: relative;
 }
-.search-input {
+.search-input-wrapper {
   display: flex;
+  position: relative;
+}
+.search-input{
+  padding-right: 32px;
 }
 .search-btn {
   height: 40px;
-  border: 1px solid #ccc;
+  position: absolute;
+  right: 0;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+  display: flex;
+  align-items: center;
+  svg{
+    fill: #919191;
+  }
 }
 .items {
   background-color: #fff;

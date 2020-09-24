@@ -41,6 +41,10 @@
       background-color: darken($color-primary, 10%);
     }
   }
+  &.btn-inline{
+    display: inline-block;
+    width: auto;
+  }
   &.btn-transparent{
     background-color: transparent;
     color: #6a6a6a;

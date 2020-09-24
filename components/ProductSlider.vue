@@ -1,6 +1,5 @@
 <template>
   <div class="product-slider">
-    <h2>Топ товаров</h2>
     <swiper ref="productSwiper" :options="swiperOption">
       <swiper-slide  v-for="item in items" :key="item.ID">
         <div class="slide-item">
@@ -34,8 +33,7 @@ export default {
 </script>
 <style lang="scss" scoped>
   .product-slider{
-    margin-top: 2em;
-    margin-bottom: 2em;
+
   }
   .slide-item{
     text-align: center;

@@ -16,8 +16,9 @@ $color-pink: #fce3e4;
 
 $color-primary: $color-red;
 $color-acent: $color-blue;
-//$color-secondary: $color-red;
+//$color-secondary: $color-grey;
 $color-link-hover: $color-red;
+$color-text: $color-grey;
 ////////////////////////////////////
 
 @mixin globalContainer {
